@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Dash TV - Museo Políglota v5.0 (Estable)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+        }
+
+        #gallery-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            background: #000;
+        }
+
+        /* Sistema de capas optimizado para fundido encadenado continuo */
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 3s ease-in-out;
+            filter: brightness(0.65) contrast(1.1);
+            z-index: 1;
+        }
+
+        .slide-active {
+            opacity: 1;
+            z-index: 3; /* Se desvanece suavemente sobre la capa de soporte */
+        }
+
+        .slide-behind {
+            opacity: 1 !important;
+            z-index: 2; /* Capa estática de soporte para evitar fondos negros intermedios */
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0,0,0,0.7) 0%, 
+                rgba(0,0,0,0) 20%, 
+                rgba(0,0,0,0) 80%, 
+                rgba(0,0,0,0.85) 100%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        #main-layout {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            width: 100vw;
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            align-content: center; 
+            align-items: stretch; 
+            padding: 8vh 10%; 
+            box-sizing: border-box;
+            gap: 5vw;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        #left-col, #right-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #reloj {
+            font-size: 11vw; 
+            font-weight: 200;
+            line-height: 0.85;
+            letter-spacing: -0.04em;
+            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            margin-bottom: 1.5vw;
+        }
+
+        #quote-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            min-height: 25vh;
+        }
+
+        #quote-display {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.3vw;
+            font-weight: 700;
+            font-style: italic;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.95);
+            transition: opacity 1s ease-in-out;
+            min-height: 12vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            padding: 0 2vw;
+        }
+
+        #quote-author {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7vw;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: rgba(255, 255, 255, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1.5vw;
+            margin-top: 1.5vw;
+            width: 100%;
+            transition: opacity 1s;
+        }
+
+        #noticias-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 2.5vw;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0,0,0,0.4);
+        }
+
+        .noticia-title {
+            font-size: 1.7vw; 
+            font-weight: 700;
+            line-height: 1.4;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        #noticia-fuente {
+            margin-top: auto;
+            font-size: 0.8vw;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.45);
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            height: 4.5vw;
+            display: flex;
+            align-items: center;
+            margin-top: 1.5vw;
+            transition: opacity 1s;
+        }
+
+        #info-obra {
+            position: fixed;
+            bottom: 4vh;
+            left: 5vw; 
+            z-index: 20;
+            font-size: 0.7vw;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            background: rgba(0,0,0,0.2);
+            padding: 8px 18px;
+            border-radius: 2px;
+            border-left: 3px solid rgba(255,255,255,0.3);
+            transition: opacity 1s ease-in-out;
+        }
+
+        #loader {
+            position: fixed;
+            top:0; left:0; width: 100%; height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><div style="font-size: 0.8vw; letter-spacing: 0.5em; color: rgba(255,255,255,0.4); text-transform: uppercase;">Sincronizando Museo...</div></div>
+    
+    <div id="gallery-container">
+        <div id="slide-A" class="slide"></div>
+        <div id="slide-B" class="slide"></div>
+    </div>
+    
+    <div class="overlay"></div>
+
+    <div id="main-layout">
+        <div id="left-col" class="flex flex-col justify-between">
+            <div id="top-left-content" class="text-center">
+                <div id="fecha-texto" class="text-[1.3vw] font-medium text-white/60 uppercase tracking-[0.6em] mb-2">---</div>
+                <div id="reloj">00:00</div>
+                <div id="clima-container" class="flex items-center justify-center text-white/90">
+                    <div id="clima-icon" class="text-[2.5vw] mr-4">🌤️</div>
+                    <div id="clima-temp" class="text-[3vw] font-medium mr-4">--°</div>
+                    <div id="clima-desc" class="text-[0.8vw] font-semibold text-white/70 uppercase text-left">COCHABAMBA<br>ACTUALIZANDO</div>
+                </div>
+            </div>
+
+            <div id="quote-container">
+                <div id="quote-display">...</div>
+                <div id="quote-author">AUTOR</div>
+            </div>
+        </div>
+
+        <div id="right-col" class="flex flex-col justify-between">
+            <div id="noticias-box">
+                <div id="noticias-header" class="text-[0.7vw] font-bold text-white/40 uppercase tracking-[0.4em] mb-8 border-b border-white/10 pb-4">CRÓNICA • ÚLTIMAS NOTICIAS</div>
+                <div id="noticia-display" class="flex-grow flex flex-col justify-center">
+                    <div id="noticia-fecha" class="text-[0.8vw] text-white/50 uppercase mb-4">RECIENTE</div>
+                    <div id="noticia-title" class="noticia-title">Buscando titulares...</div>
+                </div>
+                <div id="noticia-fuente" class="mt-auto text-[0.7vw] font-bold text-white/45 uppercase tracking-[0.4em] border-t border-white/15 pt-6 flex items-center">CONECTANDO</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="info-obra" class="opacity-0">Zen Dash • Arte</div>
+
+    <script>
+        let activeGallery = [];
+        let dailyQuotes = [];
+        let newsHeadlines = [];
+        let currentGalIdx = 0;
+        let activeSlide = 'A';
+        let quoteIdx = 0;
+        let langIdx = 0;
+        let newsIndex = 0;
+        let lastDay = "";
+        let languages = ['es', 'en', 'fr', 'de'];
+
+        // --- GALERÍA DE ARTE EN ALTA COMPATIBILIDAD (UNSPLASH CDN) ---
+        const priorityGallery = [
+            { url: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop", title: "Almendro en Flor (Inspirado)", author: "Vincent van Gogh" },
+            { url: "https://images.unsplash.com/photo-1580136579312-94651dfd596d?q=80&w=1200&auto=format&fit=crop", title: "Estudio Paisajista en Óleo", author: "Claude Monet" },
+            { url: "https://images.unsplash.com/photo-1579783928589-729a531aa6fd?q=80&w=1200&auto=format&fit=crop", title: "Clásico del Renacimiento", author: "Canaletto" },
+            { url: "https://images.unsplash.com/photo-1581337204873-ef3678791539?q=80&w=1200&auto=format&fit=crop", title: "Bóveda Celeste Histórica", author: "Pintura de Galería" },
+            { url: "https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?q=80&w=1200&auto=format&fit=crop", title: "Retrato del Siglo XIX", author: "John Singer Sargent" },
+            { url: "https://images.unsplash.com/photo-1579783928621-7a13d66a62d1?q=80&w=1200&auto=format&fit=crop", title: "Naturaleza Clásica", author: "Joaquín Sorolla" },
+            { url: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1200&auto=format&fit=crop", title: "Bahía y Góndolas", author: "Francesco Guardi" },
+            { url: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=1200&auto=format&fit=crop", title: "Alegoría de Galería", author: "Sandro Botticelli" },
+            { url: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=1200&auto=format&fit=crop", title: "Jardín Impresionista", author: "Claude Monet" },
+            { url: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1200&auto=format&fit=crop", title: "Velero en el Océano", author: "William Turner" }
+        ];
+
+        const secondaryGallery = [
+            { url: "https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=1200&auto=format&fit=crop", title: "Lienzo de Colores Vivos", author: "Wassily Kandinsky" },
+            { url: "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=1200&auto=format&fit=crop", title: "Valle de las Nubes", author: "Caspar David Friedrich" },
+            { url: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop", title: "Bosque Encantado", author: "Albert Bierstadt" },
+            { url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=1200&auto=format&fit=crop", title: "Estudio Floral Clásico", author: "Jan van Huysum" },
+            { url: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=1200&auto=format&fit=crop", title: "Venecia Eterna", author: "Thomas Moran" },
+            { url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop", title: "Luz de Taller", author: "Rembrandt" },
+            { url: "https://images.unsplash.com/photo-1548625361-155de6c7f54d?q=80&w=1200&auto=format&fit=crop", title: "Capilla Histórica", author: "Michelangelo" }
+        ];
+
+        // --- BANCOS DE CITAS Y MODELOS COGNITIVOS ---
+        const classicQuotes = [
+            { es: "La simplicidad es la máxima sofisticación.", en: "Simplicity is the ultimate sophistication.", fr: "La simplicité est la sophistication suprême.", de: "Einfachheit ist die höchste Vollendung.", author: "Leonardo da Vinci" },
+            { es: "Pienso, luego existo.", en: "I think, therefore I am.", fr: "Je pense, donc je suis.", de: "Ich denke, also bin ich.", author: "René Descartes" },
+            { es: "Vivir es lo más raro del mundo. La mayoría solo existe.", en: "To live is the rarest thing in the world. Most people exist.", fr: "Vivre est la chose la plus rare du monde. La plupart des gens existent.", de: "Zu leben ist das Seltenste auf der Welt. Die meisten Menschen existieren nur.", author: "Oscar Wilde" },
+            { es: "La imaginación es más importante que el conocimiento.", en: "Imagination is more important than knowledge.", fr: "L'imagination es plus importante que le savoir.", de: "Phantasie ist wichtiger als Wissen.", author: "Albert Einstein" },
+            { es: "Todo lo que puedes imaginar es real.", en: "Everything you can imagine is real.", fr: "Tout ce que vous pouvez imaginer est réel.", de: "Alles, was man sich vorstellen kann, ist echt.", author: "Pablo Picasso" },
+            { es: "Lo esencial es invisible a los ojos.", en: "What is essential is invisible to the eye.", fr: "L'essentiel est invisible pour les yeux.", de: "Das Wesentliche ist für die Augen unsichtbar.", author: "Antoine de Saint-Exupéry" },
+            { es: "Sólo sé que no sé nada.", en: "I only know that I know nothing.", fr: "Tout ce que je sais, c'est que je ne sais rien.", de: "Ich weiß, dass ich nichts weiß.", author: "Sócrates" },
+            { es: "Aquel que tiene un porqué para vivir puede soportar casi cualquier cómo.", en: "He who has a why to live can bear almost any how.", fr: "Celui qui a un pourquoi vivre peut supporter n'importe quel comment.", de: "Wer ein Warum zum Leben hat, erträgt fast jedes Wie.", author: "Friedrich Nietzsche" }
+        ];
+
+        const mentalModels = [
+            { 
+                es: "Ante múltiples explicaciones, la más simple suele ser la correcta.", 
+                en: "When presented with competing hypotheses, the simplest one is usually correct.", 
+                fr: "Entre plusieurs explications, la plus simple est généralement la bonne.", 
+                de: "Von mehreren plausiblen Erklärungen ist die einfachste oft die richtige.", 
+                author: "Navaja de Ockham" 
+            },
+            { 
+                es: "Nunca atribuyas a la maldad lo que se explica adecuadamente por la estupidez.", 
+                en: "Never attribute to malice that which is adequately explained by stupidity.", 
+                fr: "Ne jamais atribuer à la malveillance ce que la bêtise suffit à expliquer.", 
+                de: "Schreibe nicht der Bösartigkeit zu, was durch Dummheit hinreichend erklärt ist.", 
+                author: "Navaja de Hanlon" 
+            },
+            { 
+                es: "Si se reemplazan todas las partes de un objeto, ¿sigue siendo el mismo?", 
+                en: "If every component of an object is replaced, does it remain the same object?", 
+                fr: "Si l'on remplace toutes les pièces d'un objet, est-ce toujours le même ?", 
+                de: "Wenn alle Teile eines Objekts ersetzt werden, ist es dann noch dasselbe?", 
+                author: "Paradoja de Teseo" 
+            },
+            { 
+                es: "El 80% de las consecuencias proviene del 20% de las causas.", 
+                en: "80% of consequences come from 20% of the causes.", 
+                fr: "80% des effets sont le produit de 20% des causes.", 
+                de: "80% der Ergebnisse werden oft mit nur 20% des Aufwands erzielt.", 
+                author: "Principio de Pareto" 
+            },
+            { 
+                es: "El trabajo se expande hasta llenar el tiempo disponible para completarse.", 
+                en: "Work expands so as to fill the time available for its completion.", 
+                fr: "Le travail s'étale de façon à ocupar le temps disponible pour sa réalisation.", 
+                de: "Arbeit dehnt sich in dem Maße aus, wie Zeit zu ihrer Erledigung vorhanden ist.", 
+                author: "Ley de Parkinson" 
+            },
+            { 
+                es: "Si algo tiene la posibilidad de salir mal, saldrá mal.", 
+                en: "Anything that can go wrong will go wrong.", 
+                fr: "Tout ce que est susceptible de mal tourner tournera mal.", 
+                de: "Alles, was schiefgehen kann, wird schiefgehen.", 
+                author: "Ley de Murphy" 
+            },
+            { 
+                es: "Si el universo es tan vasto y antiguo, ¿dónde está todo el mundo?", 
+                en: "Given the vastness and age of the universe, where is everyone?", 
+                fr: "Compte tenu de l'immensité et de l'âge de l'univers, où est tout le monde ?", 
+                de: "Wenn das Universum so alt und riesig ist, wo sind dann alle anderen?", 
+                author: "Paradoja de Fermi" 
+            },
+            { 
+                es: "Quienes menos saben de un tema suelen sobreestimar su propia habilidad.", 
+                en: "People with low ability in a task tend to overestimate their competence.", 
+                fr: "Les personnes moins compétentes ont tendance à surestimer leurs capacidades.", 
+                de: "Inkompetente Menschen neigen dazu, ihr eigenes Wissen zu überschätzen.", 
+                author: "Efecto Dunning-Kruger" 
+            },
+            { 
+                es: "Interpreta las declaraciones de los demás de la manera más racional y favorable posible.", 
+                en: "Interpret other people's statements in the most rational and favorable way possible.", 
+                fr: "Interpréter les déclarations d'autrui de la manière la plus rationnelle et favorable possible.", 
+                de: "Interpretiere die Aussagen anderer auf die rationalste und günstigste Weise.", 
+                author: "Principio de Caridad" 
+            },
+            {
+                es: "Si algo no se puede probar mediante experimento u observación, no merece debate.",
+                en: "If something cannot be settled by experiment or observation, it is not worthy of debate.",
+                fr: "Si quelque chose ne peut pas être résolu par l'expérience, cela ne mérite pas de débat.",
+                de: "Wenn etwas nicht durch Experiment oder Beobachtung geklärt werden kann, ist es keine Debatte wert.",
+                author: "Navaja de Adler"
+            },
+            {
+                es: "En una jerarquía, todo empleado tiende a ascender hasta su nivel de incompetencia.",
+                en: "In a hierarchy, every employee tends to rise to his level of incompetence.",
+                fr: "Dans une hiérarchie, chaque employé tend à s'élever jusqu'à son niveau d'incompétence.",
+                de: "In einer Hierarchie neigt jeder Mitarbeiter dazu, bis zu seiner Stufe der Unfähigkeit aufzusteigen.",
+                author: "Principio de Peter"
+            },
+            {
+                es: "Los grupos toman decisiones colectivas que nadie desea individualmente por no contradecir al grupo.",
+                en: "Groups make collective decisions that no individual wants, just to avoid conflict.",
+                fr: "Les groupes prennent des décisions collectives que personne ne souhaite individuellement pour éviter le conflit.",
+                de: "Gruppen treffen kollektive Entscheidungen, die kein Einzelner will, nur um Konflikte zu vermeiden.",
+                author: "Paradoja de Abilene"
+            },
+            {
+                es: "Cuando una medida se convierte en un objetivo, deja de ser una buena medida.",
+                en: "When a measure becomes a target, it ceases to be a good measure.",
+                fr: "Quand une mesure devient une cible, elle cesse d'être une bonne mesure.",
+                de: "Wenn ein Maß zu einem Ziel wird, hört es auf, ein gutes Maß zu sein.",
+                author: "Ley de Goodhart"
+            },
+            {
+                es: "El intento de ocultar o censurar información acaba produciendo su difusión masiva no deseada.",
+                en: "The attempt to hide or censor information ends up causing its unintended massive spread.",
+                fr: "La tentative de masquer des informations finit par provoquer leur diffusion massive involontaire.",
+                de: "Der Versuch, Informationen zu verbergen, führt am Ende zu ihrer unbeabsichtigten massiven Verbreitung.",
+                author: "Efecto Streisand"
+            }
+        ];
+
+        // --- SISTEMA DE DETECCIÓN DE FIN DE SEMANA O FERIADOS EN COCHABAMBA (BOLIVIA) ---
+        function isWeekendOrHoliday() {
+            const d = new Date();
+            const day = d.getDay(); // 0 = Domingo, 6 = Sábado
+            const month = d.getMonth() + 1; // 1-12
+            const date = d.getDate(); // 1-31
+            const year = d.getFullYear();
+
+            // --- LÓGICA DE PRUEBA TEMPORAL REQUERIDA (14 Y 15 DE JUNIO DE 2026 ASUMIDOS COMO FERIADO) ---
+            if (year === 2026 && month === 6 && (date === 14 || date === 15)) {
+                return { type: 'holiday', label: 'FERIADO DE PRUEBA' };
+            }
+
+            // Lógica normal para fines de semana ordinarios (se activa a partir del martes 16 de junio de 2026)
+            if (day === 0 || day === 6) {
+                return { type: 'weekend', label: 'FIN DE SEMANA' };
+            }
+
+            // Feriados fijos nacionales de Bolivia y Cochabamba
+            if (month === 1 && date === 1) return { type: 'holiday', label: 'FERIADO • AÑO NUEVO' };
+            if (month === 1 && date === 22) return { type: 'holiday', label: 'FERIADO • ESTADO PLURINACIONAL' };
+            if (month === 5 && date === 1) return { type: 'holiday', label: 'FERIADO • DÍA DEL TRABAJO' };
+            if (month === 6 && date === 21) return { type: 'holiday', label: 'FERIADO • AÑO NUEVO ANDINO' };
+            if (month === 8 && date === 6) return { type: 'holiday', label: 'FERIADO • DÍA DE LA PATRIA' };
+            if (month === 9 && date === 14) return { type: 'holiday', label: 'FERIADO • COCHABAMBA' }; // Aniversario Cbba
+            if (month === 11 && date === 2) return { type: 'holiday', label: 'FERIADO • TODOS SANTOS' };
+            if (month === 12 && date === 25) return { type: 'holiday', label: 'FERIADO • NAVIDAD' };
+
+            // Feriados variables nacionales de Bolivia calculados para el año en curso (2026)
+            if (year === 2026) {
+                if (month === 2 && (date === 16 || date === 17)) return { type: 'holiday', label: 'FERIADO • CARNAVAL' };
+                if (month === 4 && date === 3) return { type: 'holiday', label: 'FERIADO • VIERNES SANTO' };
+                if (month === 6 && date === 4) return { type: 'holiday', label: 'FERIADO • CORPUS CHRISTI' };
+            }
+
+            return null;
+        }
+
+        // --- MOTOR DE EFEMÉRIDES Y CONMEMORACIONES HISTÓRICAS DEL DÍA ---
+        function getDailyCommemoration() {
+            const d = new Date();
+            const month = d.getMonth() + 1; // 1-12
+            const date = d.getDate(); // 1-31
+            const year = d.getFullYear();
+
+            // --- FECHAS DE PRUEBA EN COCHABAMBA ---
+            if (year === 2026 && month === 6 && date === 14) {
+                return {
+                    title: "Día de la Paz del Chaco: Se conmemora la histórica firma del cese de hostilidades (1935), poniendo fin a la dolorosa contienda del Chaco y uniendo a los pueblos de Bolivia y Paraguay.",
+                    source: "Efemérides de Bolivia",
+                    date: "HISTORIA • HOY 14 DE JUNIO"
+                };
+            }
+            if (year === 2026 && month === 6 && date === 15) {
+                return {
+                    title: "Día Global de la Integración y Preparación Cultural: Jornada para promover los saberes ancestrales y las tradiciones cochabambinas de cara al próximo Año Nuevo Andino.",
+                    source: "Efemérides de Bolivia",
+                    date: "HISTORIA • HOY 15 DE JUNIO"
+                };
+            }
+
+            // --- EFEMÉRIDES Y MOTIVOS DE FERIADOS REALES ---
+            if (month === 1 && date === 1) {
+                return { title: "Fiel inicio del año civil a nivel global, conmemorando la renovación del tiempo, metas de paz, unión familiar y esperanzas compartidas en todo el mundo.", source: "Feriado de Año Nuevo", date: "HISTORIA • 1 DE ENERO" };
+            }
+            if (month === 1 && date === 22) {
+                return { title: "Día de la Fundación del Estado Plurinominal de Bolivia (2010): Celebración de la soberanía de nuestras naciones, identidades culturales y equidad constitucional.", source: "Efemérides de Bolivia", date: "HISTORIA • 22 DE ENERO" };
+            }
+            if (month === 5 && date === 1) {
+                return { title: "Día Internacional de los Trabajadores: Homenaje a la histórica lucha por los derechos laborales, la jornada de ocho horas y condiciones justas en todo el mundo.", source: "Efemérides Globales", date: "HISTORIA • 1 DE MAYO" };
+            }
+            if (month === 5 && date === 27) {
+                return { title: "Homenaje a las Heroínas de la Coronilla (1812) en la colina de San Sebastián de Cochabamba: Símbolo eterno de valor por la independencia patria.", source: "Día de la Madre Boliviana", date: "HISTORIA • 27 DE MAYO" };
+            }
+            if (month === 6 && date === 21) {
+                return { title: "Año Nuevo Andino Amazónico Chaqueño (Willka Kuti): Celebración del solsticio de invierno y el retorno vivificante de la energía solar en los Andes.", source: "Feriado de Bolivia", date: "HISTORIA • 21 DE JUNIO" };
+            }
+            if (month === 8 && date === 6) {
+                return { title: "Día de la Independencia de Bolivia: Conmemoración de la histórica asamblea constituyente de 1825 que declaró la plena soberanía de nuestra República.", source: "Efemérides de Bolivia", date: "HISTORIA • 6 DE AGOSTO" };
+            }
+            if (month === 9 && date === 14) {
+                return { title: "Aniversario de la Revolución de Cochabamba (1810): Conmemoración del valiente levantamiento libertario liderado por Esteban Arze y patriotas locales.", source: "Grito Libertario Cbba", date: "HISTORIA • 14 DE SEPTIEMBRE" };
+            }
+            if (month === 11 && date === 2) {
+                return { title: "Festividad de Todos Santos: Tradición milenaria andina de preparación de mesas florales y panes rituales para recibir a las almas de nuestros ancestros.", source: "Efemérides de Bolivia", date: "HISTORIA • 2 DE NOVIEMBRE" };
+            }
+            if (month === 12 && date === 25) {
+                return { title: "Celebración del nacimiento espiritual en los hogares, invocando el cese de conflictos, la generosidad comunitaria y el perdón mutuo entre seres humanos.", source: "Feriado de Navidad", date: "HISTORIA • 25 DE DICIEMBRE" };
+            }
+
+            return null;
+        }
+
+        // --- MEZCLADOR DE PRIORIDAD 3:1 (3 MODELOS POR CADA 1 CLÁSICA) ---
+        function prepareQuotes() {
+            const shuffledModels = mentalModels.sort(() => 0.5 - Math.random());
+            const shuffledClassics = classicQuotes.sort(() => 0.5 - Math.random());
+            
+            dailyQuotes = [];
+            let mIdx = 0;
+            let cIdx = 0;
+            
+            while (mIdx < shuffledModels.length || cIdx < shuffledClassics.length) {
+                for (let i = 0; i < 3; i++) {
+                    if (mIdx < shuffledModels.length) {
+                        dailyQuotes.push(shuffledModels[mIdx++]);
+                    }
+                }
+                if (cIdx < shuffledClassics.length) {
+                    dailyQuotes.push(shuffledClassics[cIdx++]);
+                }
+            }
+        }
+
+        // --- MOTOR DE NOTICIAS (ASÍNCRONO E INDEPENDIENTE CON CACHE-BUSTER) ---
+        function fetchAllNews() {
+            const weekdaySources = [
+                { name: "BBC Mundo", url: "https://feeds.bbci.co.uk/mundo/rss.xml" },
+                { name: "CNN Español", url: "https://cnnespanol.cnn.com/feed/" },
+                { name: "Los Tiempos", url: "https://www.lostiempos.com/rss/portada" },
+                { name: "El Deber", url: "https://eldeber.com.bo/rss/portada" }
+            ];
+
+            const funSources = [
+                { name: "SINC (Ciencia y Positivo)", url: "https://www.agenciasinc.es/rss/feed/all" },
+                { name: "National Geographic", url: "https://www.nationalgeographic.com.es/feeder/all" },
+                { name: "Yorokobu (Buenas Ideas)", url: "https://www.yorokobu.es/feed/" },
+                { name: "Muy Interesante", url: "https://www.muyinteresante.es/rss" },
+                { name: "Xataka (Tecnología)", url: "https://www.xataka.com/feed" }
+            ];
+
+            const dateStatus = isWeekendOrHoliday();
+            const sources = dateStatus ? funSources : weekdaySources;
+
+            const headerEl = document.getElementById('noticias-header');
+            if (headerEl) {
+                if (dateStatus) {
+                    headerEl.innerText = `CRÓNICA • ${dateStatus.label}`;
+                } else {
+                    headerEl.innerText = "CRÓNICA • ÚLTIMAS NOTICIAS";
+                }
+            }
+
+            // Inicializar array de titulares de forma limpia para evitar acumulaciones
+            newsHeadlines = [];
+
+            // Inyectar Efeméride o conmemoración diaria si existe para que aparezca primero
+            const dailyComm = getDailyCommemoration();
+            if (dailyComm) {
+                newsHeadlines.push(dailyComm);
+                // Iniciar rotación visual instantáneamente con la efeméride histórica
+                rotateNews();
+            }
+
+            const cb = Math.floor(Date.now() / 1800000); // 30 min cache
+            
+            sources.forEach(s => {
+                const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(s.url)}&count=10&cb=${cb}`;
+                
+                fetch(api)
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.status === 'ok' && data.items && data.items.length > 0) {
+                            const newArticles = data.items.map(item => ({
+                                title: item.title.replace(/<\/?[^>]+(>|$)/g, "").trim(),
+                                source: s.name,
+                                date: formatSafeDate(item.pubDate)
+                            }));
+                            
+                            newsHeadlines = newsHeadlines.concat(newArticles);
+                            
+                            const currentTitle = document.getElementById('noticia-title').innerText;
+                            if (currentTitle.includes("Buscando") || currentTitle.includes("Sincronizando")) {
+                                rotateNews();
+                            }
+                        }
+                    })
+                    .catch(err => console.error("Error obteniendo RSS de:", s.name, err));
+            });
+
+            setTimeout(() => {
+                if (newsHeadlines.length === 0) {
+                    newsHeadlines = [{ title: "Conectando con servidores de noticias...", source: "INFO ZEN", date: "AHORA" }];
+                    rotateNews();
+                }
+            }, 10000);
+        }
+
+        function formatSafeDate(dStr) {
+            try {
+                const d = new Date(dStr.replace(/-/g, '/'));
+                if(isNaN(d.getTime())) return "RECIENTE";
+                return d.toLocaleDateString('es-ES', {day:'2-digit', month:'short'}) + " • " + d.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit', hour12:false});
+            } catch(e) { return "AHORA"; }
+        }
+
+        // --- SISTEMA DE GALERÍA EXCLUSIVO CON TRANSICIÓN EXCLUSIVA DE FUNDIDO ENCADENADO ---
+        function cycleGallery() {
+            if(activeGallery.length === 0) return;
+            currentGalIdx = (currentGalIdx + 1) % activeGallery.length;
+            const art = activeGallery[currentGalIdx];
+            const divA = document.getElementById('slide-A');
+            const divB = document.getElementById('slide-B');
+            const info = document.getElementById('info-obra');
+
+            const tempImg = new Image();
+            tempImg.onload = function() {
+                if(activeSlide === 'A') {
+                    divB.style.backgroundImage = `url('${art.url}')`;
+                    divB.className = 'slide slide-active'; 
+                    divA.className = 'slide slide-behind'; 
+                    activeSlide = 'B';
+                    
+                    setTimeout(() => {
+                        if (activeSlide === 'B') {
+                            divA.className = 'slide'; 
+                        }
+                    }, 3200);
+                } else {
+                    divA.style.backgroundImage = `url('${art.url}')`;
+                    divA.className = 'slide slide-active'; 
+                    divB.className = 'slide slide-behind'; 
+                    activeSlide = 'A';
+                    
+                    setTimeout(() => {
+                        if (activeSlide === 'A') {
+                            divB.className = 'slide'; 
+                        }
+                    }, 3200);
+                }
+                
+                info.style.opacity = 0;
+                setTimeout(() => {
+                    info.innerText = art.title + " • " + art.author;
+                    info.style.opacity = 0.5;
+                }, 1000);
+            };
+
+            tempImg.onerror = function() {
+                console.warn("Error cargando fondo de arte, saltando al siguiente de inmediato:", art.url);
+                setTimeout(cycleGallery, 200); 
+            };
+            tempImg.src = art.url;
+        }
+
+        function rotateQuotes() {
+            const disp = document.getElementById('quote-display');
+            const auth = document.getElementById('quote-author');
+            if(dailyQuotes.length === 0) return;
+            
+            disp.style.opacity = 0; auth.style.opacity = 0;
+            setTimeout(() => {
+                const q = dailyQuotes[quoteIdx];
+                disp.innerText = q[languages[langIdx]];
+                auth.innerText = q.author.toUpperCase();
+                disp.style.opacity = 1; auth.style.opacity = 1;
+                
+                langIdx++;
+                if(langIdx >= languages.length) { 
+                    langIdx = 0; 
+                    quoteIdx = (quoteIdx + 1) % dailyQuotes.length; 
+                }
+            }, 1000);
+        }
+
+        // --- ROTACIÓN SEGUIDA DE NOTICIAS ---
+        function rotateNews() {
+            const display = document.getElementById('noticia-display');
+            const titleEl = document.getElementById('noticia-title');
+            const dateEl = document.getElementById('noticia-fecha');
+            const fuenteEl = document.getElementById('noticia-fuente');
+            
+            if (!newsHeadlines || newsHeadlines.length === 0) return;
+            
+            display.style.opacity = 0; fuenteEl.style.opacity = 0;
+            setTimeout(() => {
+                if (!newsHeadlines || newsHeadlines.length === 0) {
+                    titleEl.innerText = "Sincronizando noticias...";
+                    dateEl.innerText = "AL MOMENTO";
+                    fuenteEl.innerText = "ZEN DASH";
+                    display.style.opacity = 1; fuenteEl.style.opacity = 1;
+                    return;
+                }
+
+                if (newsIndex >= newsHeadlines.length) {
+                    newsIndex = 0;
+                }
+
+                const n = newsHeadlines[newsIndex];
+                if (n) {
+                    dateEl.innerText = n.date || "RECIENTE";
+                    titleEl.innerText = n.title || "";
+                    fuenteEl.innerText = (n.source || "INFO").toUpperCase();
+                    newsIndex = (newsIndex + 1) % newsHeadlines.length;
+                }
+                
+                display.style.opacity = 1; fuenteEl.style.opacity = 1;
+            }, 800); 
+        }
+
+        function prepareGallery() {
+            const shuffledPriority = priorityGallery.sort(() => 0.5 - Math.random());
+            const shuffledSecondary = secondaryGallery.sort(() => 0.5 - Math.random());
+            activeGallery = shuffledPriority.concat(shuffledSecondary);
+        }
+
+        function updateClock() {
+            const n = new Date();
+            document.getElementById('reloj').innerText = n.toLocaleTimeString('es-BO', {hour:'2-digit', minute:'2-digit', hour12:false});
+            document.getElementById('fecha-texto').innerText = n.toLocaleDateString('es-ES', {weekday:'short', day:'numeric', month:'short'}).toUpperCase();
+            
+            if(lastDay !== n.toDateString()) {
+                prepareGallery(); 
+                prepareQuotes();  
+                lastDay = n.toDateString();
+            }
+        }
+
+        function fetchWeather() {
+            fetch("https://api.open-meteo.com/v1/forecast?latitude=-17.3895&longitude=-66.1568&current=temperature_2m,weather_code&timezone=auto")
+            .then(r => r.json()).then(data => {
+                if(data.current) {
+                    document.getElementById('clima-temp').innerText = Math.round(data.current.temperature_2m) + "°";
+                    document.getElementById('clima-desc').innerHTML = "COCHABAMBA<br>" + (data.current.weather_code <= 3 ? "DESPEJADO" : "NUBOSIDAD");
+                }
+            }).catch(() => {});
+        }
+
+        window.onload = function() {
+            var now = new Date();
+            lastDay = now.toDateString();
+            
+            prepareGallery();
+            prepareQuotes();
+
+            var img = new Image();
+            img.onload = function() {
+                const slideA = document.getElementById('slide-A');
+                slideA.style.backgroundImage = `url('${activeGallery[0].url}')`;
+                slideA.className = 'slide slide-active';
+                
+                document.getElementById('loader').style.opacity = 0;
+                setTimeout(() => { 
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('main-layout').style.opacity = 1;
+                }, 1000);
+                
+                rotateQuotes();
+                fetchAllNews();
+            };
+
+            img.onerror = function() {
+                console.warn("Fallo carga inicial de arte, buscando respaldo.");
+                activeGallery.push(activeGallery.shift());
+                img.src = activeGallery[0].url;
+            };
+
+            img.src = activeGallery[0].url;
+            
+            setTimeout(() => { if(document.getElementById('loader').style.display !== 'none') img.onload(); }, 6000);
+
+            updateClock();
+            fetchWeather();
+            
+            setInterval(updateClock, 1000);
+            setInterval(cycleGallery, 45000);
+            setInterval(rotateQuotes, 25000);
+            setInterval(rotateNews, 30000);
+            setInterval(fetchWeather, 30 * 60 * 1000);
+            setInterval(fetchAllNews, 15 * 60 * 1000); 
+        };
+    </script>
+</body>
+</html>
