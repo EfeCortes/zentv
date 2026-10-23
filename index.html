@@ -458,25 +458,16 @@
             }
         }
 
+        const fallbackHeadlines = [
+            { title: "El telescopio James Webb descubre detalles inéditos sobre la formación de las primeras galaxias", source: "ASTRONOMÍA", date: "HOY" },
+            { title: "Avances en energía de fusión marcan un nuevo hito de estabilidad y eficiencia en reactores", source: "CIENCIA", date: "HOY" },
+            { title: "Nuevas investigaciones en Tiwanaku revelan sistemas avanzados de gestión hídrica prehispánica", source: "HISTORIA", date: "HOY" },
+            { title: "La inteligencia artificial acelera el descubrimiento de nuevos materiales para baterías sostenibles", source: "TECNOLOGÍA", date: "HOY" },
+            { title: "El Parque Nacional Madidi es ratificado entre los ecosistemas con mayor biodiversidad del planeta", source: "NATURALEZA", date: "HOY" }
+        ];
+
         function fetchAllNews() {
-            const weekdaySources = [
-                { name: "BBC Mundo", url: "https://feeds.bbci.co.uk/mundo/rss.xml" },
-                { name: "CNN Español", url: "https://cnnespanol.cnn.com/feed/" },
-                { name: "Los Tiempos", url: "https://www.lostiempos.com/rss/portada" },
-                { name: "El Deber", url: "https://eldeber.com.bo/rss/portada" }
-            ];
-
-            const funSources = [
-                { name: "SINC (Ciencia y Positivo)", url: "https://www.agenciasinc.es/rss/feed/all" },
-                { name: "National Geographic", url: "https://www.nationalgeographic.com.es/feeder/all" },
-                { name: "Yorokobu (Buenas Ideas)", url: "https://www.yorokobu.es/feed/" },
-                { name: "Muy Interesante", url: "https://www.muyinteresante.es/rss" },
-                { name: "Xataka (Tecnología)", url: "https://www.xataka.com/feed" }
-            ];
-
             const dateStatus = isWeekendOrHoliday();
-            const sources = dateStatus ? funSources : weekdaySources;
-
             const headerEl = document.getElementById('noticias-header');
             if (headerEl) {
                 if (dateStatus) {
@@ -494,46 +485,51 @@
                 rotateNews();
             }
 
-            const cb = Math.floor(Date.now() / 1800000); 
-            
-            sources.forEach(s => {
-                const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(s.url)}&count=10&cb=${cb}`;
-                
-                fetch(api)
-                    .then(r => r.json())
-                    .then(data => {
-                        if (data.status === 'ok' && data.items && data.items.length > 0) {
-                            const newArticles = data.items.map(item => ({
-                                title: item.title.replace(/<\/?[^>]+(>|$)/g, "").trim(),
-                                source: s.name,
-                                date: formatSafeDate(item.pubDate)
-                            }));
-                            
-                            newsHeadlines = newsHeadlines.concat(newArticles);
-                            
-                            const currentTitle = document.getElementById('noticia-title').innerText;
-                            if (currentTitle.includes("Buscando") || currentTitle.includes("Sincronizando")) {
-                                rotateNews();
-                            }
-                        }
-                    })
-                    .catch(err => console.error("Error obteniendo RSS de:", s.name, err));
-            });
+            // Llamada al endpoint optimizado de Netlify Functions
+            fetch('/api/news')
+                .then(r => {
+                    if (!r.ok) throw new Error("HTTP " + r.status);
+                    return r.json();
+                })
+                .then(articles => {
+                    if (articles && articles.length > 0) {
+                        const formatted = articles.map(a => ({
+                            title: a.title,
+                            source: a.source,
+                            date: formatSafeDate(a.date)
+                        }));
+                        newsHeadlines = newsHeadlines.concat(formatted);
 
+                        const currentTitle = document.getElementById('noticia-title').innerText;
+                        if (currentTitle.includes("Buscando") || currentTitle.includes("Sincronizando") || currentTitle.includes("Conectando")) {
+                            rotateNews();
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.warn("No se pudo conectar con /api/news, usando respaldo local:", err);
+                    if (newsHeadlines.length === 0) {
+                        newsHeadlines = fallbackHeadlines;
+                        rotateNews();
+                    }
+                });
+
+            // Seguro de respaldo si transcurren 5s sin noticias
             setTimeout(() => {
                 if (newsHeadlines.length === 0) {
-                    newsHeadlines = [{ title: "Conectando con servidores de noticias...", source: "INFO ZEN", date: "AHORA" }];
+                    newsHeadlines = fallbackHeadlines;
                     rotateNews();
                 }
-            }, 10000);
+            }, 5000);
         }
 
         function formatSafeDate(dStr) {
             try {
-                const d = new Date(dStr.replace(/-/g, '/'));
-                if(isNaN(d.getTime())) return "RECIENTE";
-                return d.toLocaleDateString('es-ES', {day:'2-digit', month:'short'}) + " • " + d.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit', hour12:false});
-            } catch(e) { return "AHORA"; }
+                if (!dStr || dStr === "RECIENTE" || dStr === "HOY") return "RECIENTE";
+                const d = new Date(dStr);
+                if (isNaN(d.getTime())) return "RECIENTE";
+                return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) + " • " + d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
+            } catch (e) { return "RECIENTE"; }
         }
 
         function cycleGallery() {
