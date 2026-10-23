@@ -234,7 +234,7 @@
                     <div id="noticia-fecha" class="text-[0.8vw] text-white/50 uppercase mb-4">RECIENTE</div>
                     <div id="noticia-title" class="noticia-title">Buscando titulares...</div>
                 </div>
-                <div id="noticia-fuente" class="mt-auto text-[0.7vw] font-bold text-white/45 uppercase tracking-[0.4em] border-t border-white/15 pt-6 flex items-center">CONECTANDO</div>
+                <div id="noticia-fuente" class="mt-auto text-[0.8vw] font-bold text-white/45 uppercase tracking-[0.4em] border-t border-white/15 pt-6 flex items-center">CONECTANDO</div>
             </div>
         </div>
     </div>
@@ -253,31 +253,28 @@
         let lastDay = "";
         let languages = ['es', 'en', 'fr', 'de'];
 
-        // --- GALERÍA DE ARTE EN ALTA COMPATIBILIDAD (UNSPLASH CDN) ---
+        // --- GALERÍA DE ARTE: OBRAS MAESTRAS VERIFICADAS (WIKIMEDIA COMMONS) ---
         const priorityGallery = [
-            { url: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1200&auto=format&fit=crop", title: "Almendro en Flor (Inspirado)", author: "Vincent van Gogh" },
-            { url: "https://images.unsplash.com/photo-1580136579312-94651dfd596d?q=80&w=1200&auto=format&fit=crop", title: "Estudio Paisajista en Óleo", author: "Claude Monet" },
-            { url: "https://images.unsplash.com/photo-1579783928589-729a531aa6fd?q=80&w=1200&auto=format&fit=crop", title: "Clásico del Renacimiento", author: "Canaletto" },
-            { url: "https://images.unsplash.com/photo-1581337204873-ef3678791539?q=80&w=1200&auto=format&fit=crop", title: "Bóveda Celeste Histórica", author: "Pintura de Galería" },
-            { url: "https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?q=80&w=1200&auto=format&fit=crop", title: "Retrato del Siglo XIX", author: "John Singer Sargent" },
-            { url: "https://images.unsplash.com/photo-1579783928621-7a13d66a62d1?q=80&w=1200&auto=format&fit=crop", title: "Naturaleza Clásica", author: "Joaquín Sorolla" },
-            { url: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1200&auto=format&fit=crop", title: "Bahía y Góndolas", author: "Francesco Guardi" },
-            { url: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=1200&auto=format&fit=crop", title: "Alegoría de Galería", author: "Sandro Botticelli" },
-            { url: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=1200&auto=format&fit=crop", title: "Jardín Impresionista", author: "Claude Monet" },
-            { url: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1200&auto=format&fit=crop", title: "Velero en el Océano", author: "William Turner" }
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg", title: "La Noche Estrellada", author: "Vincent van Gogh" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1024px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg", title: "La Mona Lisa", author: "Leonardo da Vinci" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg", title: "La Gran Ola de Kanagawa", author: "Katsushika Hokusai" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/1024px-1665_Girl_with_a_Pearl_Earring.jpg", title: "La Joven de la Perla", author: "Johannes Vermeer" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/1024px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg", title: "El Caminante sobre el Mar de Nubes", author: "Caspar David Friedrich" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/1024px-The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg", title: "El Beso", author: "Gustav Klimt" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/1280px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg", title: "El Nacimiento de Venus", author: "Sandro Botticelli" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg/1280px-Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg", title: "Las Meninas", author: "Diego Velázquez" }
         ];
 
         const secondaryGallery = [
-            { url: "https://images.unsplash.com/photo-1549887534-1541e9326642?q=80&w=1200&auto=format&fit=crop", title: "Lienzo de Colores Vivos", author: "Wassily Kandinsky" },
-            { url: "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=1200&auto=format&fit=crop", title: "Valle de las Nubes", author: "Caspar David Friedrich" },
-            { url: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop", title: "Bosque Encantado", author: "Albert Bierstadt" },
-            { url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=1200&auto=format&fit=crop", title: "Estudio Floral Clásico", author: "Jan van Huysum" },
-            { url: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=1200&auto=format&fit=crop", title: "Venecia Eterna", author: "Thomas Moran" },
-            { url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop", title: "Luz de Taller", author: "Rembrandt" },
-            { url: "https://images.unsplash.com/photo-1548625361-155de6c7f54d?q=80&w=1200&auto=format&fit=crop", title: "Capilla Histórica", author: "Michelangelo" }
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/The_Nightwatch_by_Rembrandt_-_Rijksmuseum.jpg/1280px-The_Nightwatch_by_Rembrandt_-_Rijksmuseum.jpg", title: "La Ronda de Noche", author: "Rembrandt van Rijn" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg/1280px-%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg", title: "La Escuela de Atenas", author: "Rafael Sanzio" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg", title: "Impresión, Sol Naciente", author: "Claude Monet" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg/1280px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg", title: "Tarde de Domingo en la Isla de la Grande Jatte", author: "Georges Seurat" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg/1280px-Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg", title: "La Libertad Guiando al Pueblo", author: "Eugène Delacroix" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg/1280px-El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg", title: "El 3 de Mayo en Madrid", author: "Francisco Goya" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Leonardo_da_Vinci_-_The_Last_Supper_high_res.jpg/1280px-Leonardo_da_Vinci_-_The_Last_Supper_high_res.jpg", title: "La Última Cena", author: "Leonardo da Vinci" }
         ];
 
-        // --- BANCOS DE CITAS Y MODELOS COGNITIVOS ---
         const classicQuotes = [
             { es: "La simplicidad es la máxima sofisticación.", en: "Simplicity is the ultimate sophistication.", fr: "La simplicité est la sophistication suprême.", de: "Einfachheit ist die höchste Vollendung.", author: "Leonardo da Vinci" },
             { es: "Pienso, luego existo.", en: "I think, therefore I am.", fr: "Je pense, donc je suis.", de: "Ich denke, also bin ich.", author: "René Descartes" },
@@ -300,7 +297,7 @@
             { 
                 es: "Nunca atribuyas a la maldad lo que se explica adecuadamente por la estupidez.", 
                 en: "Never attribute to malice that which is adequately explained by stupidity.", 
-                fr: "Ne jamais atribuer à la malveillance ce que la bêtise suffit à expliquer.", 
+                fr: "Ne jamais attribuer à la malveillance ce que la bêtise suffit à expliquer.", 
                 de: "Schreibe nicht der Bösartigkeit zu, was durch Dummheit hinreichend erklärt ist.", 
                 author: "Navaja de Hanlon" 
             },
@@ -390,7 +387,6 @@
             }
         ];
 
-        // --- SISTEMA DE DETECCIÓN DE FIN DE SEMANA O FERIADOS EN COCHABAMBA (BOLIVIA) ---
         function isWeekendOrHoliday() {
             const d = new Date();
             const day = d.getDay(); // 0 = Domingo, 6 = Sábado
@@ -398,27 +394,20 @@
             const date = d.getDate(); // 1-31
             const year = d.getFullYear();
 
-            // --- LÓGICA DE PRUEBA TEMPORAL REQUERIDA (14 Y 15 DE JUNIO DE 2026 ASUMIDOS COMO FERIADO) ---
-            if (year === 2026 && month === 6 && (date === 14 || date === 15)) {
-                return { type: 'holiday', label: 'FERIADO DE PRUEBA' };
-            }
-
-            // Lógica normal para fines de semana ordinarios (se activa a partir del martes 16 de junio de 2026)
+            // Lógica normal
             if (day === 0 || day === 6) {
                 return { type: 'weekend', label: 'FIN DE SEMANA' };
             }
 
-            // Feriados fijos nacionales de Bolivia y Cochabamba
             if (month === 1 && date === 1) return { type: 'holiday', label: 'FERIADO • AÑO NUEVO' };
             if (month === 1 && date === 22) return { type: 'holiday', label: 'FERIADO • ESTADO PLURINACIONAL' };
             if (month === 5 && date === 1) return { type: 'holiday', label: 'FERIADO • DÍA DEL TRABAJO' };
             if (month === 6 && date === 21) return { type: 'holiday', label: 'FERIADO • AÑO NUEVO ANDINO' };
             if (month === 8 && date === 6) return { type: 'holiday', label: 'FERIADO • DÍA DE LA PATRIA' };
-            if (month === 9 && date === 14) return { type: 'holiday', label: 'FERIADO • COCHABAMBA' }; // Aniversario Cbba
+            if (month === 9 && date === 14) return { type: 'holiday', label: 'FERIADO • COCHABAMBA' };
             if (month === 11 && date === 2) return { type: 'holiday', label: 'FERIADO • TODOS SANTOS' };
             if (month === 12 && date === 25) return { type: 'holiday', label: 'FERIADO • NAVIDAD' };
 
-            // Feriados variables nacionales de Bolivia calculados para el año en curso (2026)
             if (year === 2026) {
                 if (month === 2 && (date === 16 || date === 17)) return { type: 'holiday', label: 'FERIADO • CARNAVAL' };
                 if (month === 4 && date === 3) return { type: 'holiday', label: 'FERIADO • VIERNES SANTO' };
@@ -428,62 +417,27 @@
             return null;
         }
 
-        // --- MOTOR DE EFEMÉRIDES Y CONMEMORACIONES HISTÓRICAS DEL DÍA ---
         function getDailyCommemoration() {
             const d = new Date();
-            const month = d.getMonth() + 1; // 1-12
-            const date = d.getDate(); // 1-31
+            const month = d.getMonth() + 1;
+            const date = d.getDate();
             const year = d.getFullYear();
 
-            // --- FECHAS DE PRUEBA EN COCHABAMBA ---
-            if (year === 2026 && month === 6 && date === 14) {
-                return {
-                    title: "Día de la Paz del Chaco: Se conmemora la histórica firma del cese de hostilidades (1935), poniendo fin a la dolorosa contienda del Chaco y uniendo a los pueblos de Bolivia y Paraguay.",
-                    source: "Efemérides de Bolivia",
-                    date: "HISTORIA • HOY 14 DE JUNIO"
-                };
-            }
-            if (year === 2026 && month === 6 && date === 15) {
-                return {
-                    title: "Día Global de la Integración y Preparación Cultural: Jornada para promover los saberes ancestrales y las tradiciones cochabambinas de cara al próximo Año Nuevo Andino.",
-                    source: "Efemérides de Bolivia",
-                    date: "HISTORIA • HOY 15 DE JUNIO"
-                };
-            }
-
-            // --- EFEMÉRIDES Y MOTIVOS DE FERIADOS REALES ---
-            if (month === 1 && date === 1) {
-                return { title: "Fiel inicio del año civil a nivel global, conmemorando la renovación del tiempo, metas de paz, unión familiar y esperanzas compartidas en todo el mundo.", source: "Feriado de Año Nuevo", date: "HISTORIA • 1 DE ENERO" };
-            }
-            if (month === 1 && date === 22) {
-                return { title: "Día de la Fundación del Estado Plurinominal de Bolivia (2010): Celebración de la soberanía de nuestras naciones, identidades culturales y equidad constitucional.", source: "Efemérides de Bolivia", date: "HISTORIA • 22 DE ENERO" };
-            }
-            if (month === 5 && date === 1) {
-                return { title: "Día Internacional de los Trabajadores: Homenaje a la histórica lucha por los derechos laborales, la jornada de ocho horas y condiciones justas en todo el mundo.", source: "Efemérides Globales", date: "HISTORIA • 1 DE MAYO" };
-            }
-            if (month === 5 && date === 27) {
-                return { title: "Homenaje a las Heroínas de la Coronilla (1812) en la colina de San Sebastián de Cochabamba: Símbolo eterno de valor por la independencia patria.", source: "Día de la Madre Boliviana", date: "HISTORIA • 27 DE MAYO" };
-            }
-            if (month === 6 && date === 21) {
-                return { title: "Año Nuevo Andino Amazónico Chaqueño (Willka Kuti): Celebración del solsticio de invierno y el retorno vivificante de la energía solar en los Andes.", source: "Feriado de Bolivia", date: "HISTORIA • 21 DE JUNIO" };
-            }
-            if (month === 8 && date === 6) {
-                return { title: "Día de la Independencia de Bolivia: Conmemoración de la histórica asamblea constituyente de 1825 que declaró la plena soberanía de nuestra República.", source: "Efemérides de Bolivia", date: "HISTORIA • 6 DE AGOSTO" };
-            }
-            if (month === 9 && date === 14) {
-                return { title: "Aniversario de la Revolución de Cochabamba (1810): Conmemoración del valiente levantamiento libertario liderado por Esteban Arze y patriotas locales.", source: "Grito Libertario Cbba", date: "HISTORIA • 14 DE SEPTIEMBRE" };
-            }
-            if (month === 11 && date === 2) {
-                return { title: "Festividad de Todos Santos: Tradición milenaria andina de preparación de mesas florales y panes rituales para recibir a las almas de nuestros ancestros.", source: "Efemérides de Bolivia", date: "HISTORIA • 2 DE NOVIEMBRE" };
-            }
-            if (month === 12 && date === 25) {
-                return { title: "Celebración del nacimiento espiritual en los hogares, invocando el cese de conflictos, la generosidad comunitaria y el perdón mutuo entre seres humanos.", source: "Feriado de Navidad", date: "HISTORIA • 25 DE DICIEMBRE" };
-            }
+            if (month === 1 && date === 1) return { title: "Fiel inicio del año civil a nivel global, conmemorando la renovación del tiempo, metas de paz, unión familiar y esperanzas compartidas en todo el mundo.", source: "Feriado de Año Nuevo", date: "HISTORIA • 1 DE ENERO" };
+            if (month === 1 && date === 22) return { title: "Día de la Fundación del Estado Plurinominal de Bolivia (2010): Celebración de la soberanía de nuestras naciones, identidades culturales y equidad constitucional.", source: "Efemérides de Bolivia", date: "HISTORIA • 22 DE ENERO" };
+            if (month === 5 && date === 1) return { title: "Día Internacional de los Trabajadores: Homenaje a la histórica lucha por los derechos laborales, la jornada de ocho horas y condiciones justas en todo el mundo.", source: "Efemérides Globales", date: "HISTORIA • 1 DE MAYO" };
+            if (month === 5 && date === 27) return { title: "Homenaje a las Heroínas de la Coronilla (1812) en la colina de San Sebastián de Cochabamba: Símbolo eterno de valor por la independencia patria.", source: "Día de la Madre Boliviana", date: "HISTORIA • 27 DE MAYO" };
+            if (month === 6 && date === 14) return { title: "Día de la Paz del Chaco: Se conmemora la histórica firma del cese de hostilidades (1935), uniendo a los pueblos de Bolivia y Paraguay.", source: "Efemérides de Bolivia", date: "HISTORIA • 14 DE JUNIO" };
+            if (month === 6 && date === 21) return { title: "Año Nuevo Andino Amazónico Chaqueño (Willka Kuti): Celebración del solsticio de invierno y el retorno vivificante de la energía solar en los Andes.", source: "Feriado de Bolivia", date: "HISTORIA • 21 DE JUNIO" };
+            if (month === 6 && date === 23) return { title: "Víspera de San Juan: Jornada tradicional de preparación, juegos y unión comunitaria en la noche más fría del año en el hemisferio sur.", source: "Efemérides de Bolivia", date: "HISTORIA • 23 DE JUNIO" };
+            if (month === 8 && date === 6) return { title: "Día de la Independencia de Bolivia: Conmemoración de la histórica asamblea constituyente de 1825 que declaró la plena soberanía de nuestra República.", source: "Efemérides de Bolivia", date: "HISTORIA • 6 DE AGOSTO" };
+            if (month === 9 && date === 14) return { title: "Aniversario de la Revolución de Cochabamba (1810): Conmemoración del valiente levantamiento libertario liderado por Esteban Arze y patriotas locales.", source: "Grito Libertario Cbba", date: "HISTORIA • 14 DE SEPTIEMBRE" };
+            if (month === 11 && date === 2) return { title: "Festividad de Todos Santos: Tradición milenaria andina de preparación de mesas florales y panes rituales para recibir a las almas de nuestros ancestros.", source: "Efemérides de Bolivia", date: "HISTORIA • 2 DE NOVIEMBRE" };
+            if (month === 12 && date === 25) return { title: "Celebración del nacimiento espiritual en los hogares, invocando el cese de conflictos, la generosidad comunitaria y el perdón mutuo entre seres humanos.", source: "Feriado de Navidad", date: "HISTORIA • 25 DE DICIEMBRE" };
 
             return null;
         }
 
-        // --- MEZCLADOR DE PRIORIDAD 3:1 (3 MODELOS POR CADA 1 CLÁSICA) ---
         function prepareQuotes() {
             const shuffledModels = mentalModels.sort(() => 0.5 - Math.random());
             const shuffledClassics = classicQuotes.sort(() => 0.5 - Math.random());
@@ -504,7 +458,6 @@
             }
         }
 
-        // --- MOTOR DE NOTICIAS (ASÍNCRONO E INDEPENDIENTE CON CACHE-BUSTER) ---
         function fetchAllNews() {
             const weekdaySources = [
                 { name: "BBC Mundo", url: "https://feeds.bbci.co.uk/mundo/rss.xml" },
@@ -533,18 +486,15 @@
                 }
             }
 
-            // Inicializar array de titulares de forma limpia para evitar acumulaciones
             newsHeadlines = [];
 
-            // Inyectar Efeméride o conmemoración diaria si existe para que aparezca primero
             const dailyComm = getDailyCommemoration();
             if (dailyComm) {
                 newsHeadlines.push(dailyComm);
-                // Iniciar rotación visual instantáneamente con la efeméride histórica
                 rotateNews();
             }
 
-            const cb = Math.floor(Date.now() / 1800000); // 30 min cache
+            const cb = Math.floor(Date.now() / 1800000); 
             
             sources.forEach(s => {
                 const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(s.url)}&count=10&cb=${cb}`;
@@ -586,7 +536,6 @@
             } catch(e) { return "AHORA"; }
         }
 
-        // --- SISTEMA DE GALERÍA EXCLUSIVO CON TRANSICIÓN EXCLUSIVA DE FUNDIDO ENCADENADO ---
         function cycleGallery() {
             if(activeGallery.length === 0) return;
             currentGalIdx = (currentGalIdx + 1) % activeGallery.length;
@@ -655,7 +604,6 @@
             }, 1000);
         }
 
-        // --- ROTACIÓN SEGUIDA DE NOTICIAS ---
         function rotateNews() {
             const display = document.getElementById('noticia-display');
             const titleEl = document.getElementById('noticia-title');

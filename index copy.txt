@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Dash TV - Museo Políglota Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+        }
+
+        #gallery-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            background: #000;
+        }
+
+        /* Sistema de Capas para evitar pantalla negra */
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 3s ease-in-out;
+            filter: brightness(0.65) contrast(1.1);
+            z-index: 2;
+        }
+
+        .slide-active { opacity: 1; z-index: 4; }
+        .slide-previous { opacity: 1 !important; z-index: 3; }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0,0,0,0.7) 0%, 
+                rgba(0,0,0,0) 20%, 
+                rgba(0,0,0,0) 80%, 
+                rgba(0,0,0,0.85) 100%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        #main-layout {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            width: 100vw;
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            align-content: center; 
+            align-items: stretch; 
+            padding: 8vh 10%; 
+            box-sizing: border-box;
+            gap: 5vw;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        #left-col, #right-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #reloj {
+            font-size: 11vw; 
+            font-weight: 200;
+            line-height: 0.85;
+            letter-spacing: -0.04em;
+            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            margin-bottom: 1.5vw;
+        }
+
+        /* Estilo Frases Dinámicas - Ahora Centradas */
+        #quote-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            min-height: 25vh;
+        }
+
+        #quote-display {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.3vw;
+            font-weight: 700;
+            font-style: italic;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.95);
+            transition: opacity 1s ease-in-out;
+            min-height: 12vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            padding: 0 2vw;
+        }
+
+        #quote-author {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7vw;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: rgba(255, 255, 255, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1.5vw;
+            margin-top: 1.5vw;
+            width: 100%;
+            transition: opacity 1s;
+        }
+
+        #noticias-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 2.5vw;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0,0,0,0.4);
+        }
+
+        .noticia-title {
+            font-size: 1.8vw; 
+            font-weight: 700;
+            line-height: 1.4;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        #noticia-fuente {
+            margin-top: auto;
+            font-size: 0.8vw;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.45);
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            height: 4.5vw;
+            display: flex;
+            align-items: center;
+            margin-top: 1.5vw;
+        }
+
+        #info-obra {
+            position: fixed;
+            bottom: 4vh;
+            left: 5vw; 
+            z-index: 20;
+            font-size: 0.7vw;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            background: rgba(0,0,0,0.2);
+            padding: 8px 18px;
+            border-radius: 2px;
+            border-left: 3px solid rgba(255,255,255,0.3);
+            pointer-events: none;
+        }
+
+        #loader {
+            position: fixed;
+            top:0; left:0; width: 100%; height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><div style="font-size: 0.8vw; letter-spacing: 0.5em; color: rgba(255,255,255,0.3); text-transform: uppercase;">Iniciando Zen Dash...</div></div>
+    <div id="gallery-container"></div>
+    <div class="overlay"></div>
+
+    <div id="main-layout" style="display: grid;">
+        <div id="left-col">
+            <div id="top-left-content" style="text-align: center;">
+                <div id="fecha-texto" style="font-size: 1.3vw; font-weight: 500; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.6em; margin-bottom: 0.5vw;">---</div>
+                <div id="reloj">00:00</div>
+                <div id="clima-container" style="display: flex; align-items: center; justify-content: center;">
+                    <div id="clima-icon" style="font-size: 2.5vw; margin-right: 1.2vw;">🌤️</div>
+                    <div id="clima-temp" style="font-size: 3vw; font-weight: 500; margin-right: 1.2vw;">--°</div>
+                    <div id="clima-desc" style="font-size: 0.8vw; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; text-align: left;">COCHABAMBA<br>CONECTANDO</div>
+                </div>
+            </div>
+
+            <div id="quote-container">
+                <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-family: 'Playfair Display', serif; font-size: 15vw; color: rgba(255, 255, 255, 0.04); line-height: 1; pointer-events: none;">“</div>
+                <div id="quote-display">...</div>
+                <div id="quote-author">AUTOR</div>
+            </div>
+        </div>
+
+        <div id="right-col">
+            <div id="noticias-box">
+                <div style="font-size: 0.7vw; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.4em; margin-bottom: 2vw; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1vw;">NOTICIAS • MUNDO • BOLIVIA</div>
+                <div id="noticia-display" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                    <div id="noticia-fecha" style="font-size: 0.8vw; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 1vw;">RECIENTE</div>
+                    <div id="noticia-title" class="noticia-title">Buscando titulares...</div>
+                </div>
+                <div id="noticia-fuente">CONECTANDO</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="info-obra">Zen Dash • Historia del Arte</div>
+
+    <script>
+        // --- GALERÍA HORIZONTAL ---
+        var galleryData = [
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg", title: "La Noche Estrellada", author: "Vincent van Gogh" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Sanzio_01.jpg/1280px-Sanzio_01.jpg", title: "La Escuela de Atenas", author: "Rafael Sanzio" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/1280px-The_Great_Wave_off_Kanagawa.jpg", title: "La Gran Ola de Kanagawa", author: "Katsushika Hokusai" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg/1280px-Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg", title: "La Libertad guiando al pueblo", author: "Eugène Delacroix" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Taj_Mahal_in_March_2004.jpg/1280px-Taj_Mahal_in_March_2004.jpg", title: "El Taj Mahal", author: "Agra, India" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/The_Parthenon_in_Athens.jpg/1280px-The_Parthenon_in_Athens.jpg", title: "El Partenón", author: "Atenas, Grecia" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Leonardo_da_Vinci_-_The_Last_Supper_high_res.jpg/1280px-Leonardo_da_Vinci_-_The_Last_Supper_high_res.jpg", title: "La Última Cena", author: "Leonardo da Vinci" },
+            { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/The_Night_Watch_-_1928_copy.jpg/1280px-The_Night_Watch_-_1928_copy.jpg", title: "La Ronda de Noche", author: "Rembrandt" }
+        ];
+
+        // --- CITAS MULTILINGÜES ---
+        var allQuotes = [
+            { es: "La simplicidad es la máxima sofisticación.", en: "Simplicity is the ultimate sophistication.", fr: "La simplicité est la sophistication suprême.", de: "Einfachheit ist die höchste Stufe der Vollendung.", author: "Leonardo da Vinci" },
+            { es: "Pienso, luego existo.", en: "I think, therefore I am.", fr: "Je pense, donc je suis.", de: "Ich denke, also bin ich.", author: "René Descartes" },
+            { es: "Vivir es lo más raro del mundo. La mayoría solo existe.", en: "To live is the rarest thing in the world.", fr: "Vivre est la chose la plus rare du monde.", de: "Zu leben ist das Seltenste auf der Welt.", author: "Oscar Wilde" },
+            { es: "La imaginación es más importante que el conocimiento.", en: "Imagination is more important than knowledge.", fr: "L'imagination est plus importante que le savoir.", de: "Phantasie ist wichtiger als Wissen.", author: "Albert Einstein" },
+            { es: "Todo lo que puedes imaginar es real.", en: "Everything you can imagine is real.", fr: "Tout ce que vous pouvez imaginer est réel.", de: "Alles, was man sich vorstellen kann, ist echt.", author: "Pablo Picasso" },
+            { es: "Lo esencial es invisible a los ojos.", en: "What is essential is invisible to the eye.", fr: "L'essentiel est invisible pour les yeux.", de: "Das Wesentliche ist für die Augen unsichtbar.", author: "Antoine de Saint-Exupéry" },
+            { es: "Sólo sé que no sé nada.", en: "I only know that I know nothing.", fr: "Tout ce que je sais, c'est que je ne sais rien.", de: "Ich weiß, dass ich nichts weiß.", author: "Sócrates" },
+            { es: "Donde hay amor hay vida.", en: "Where there is love there is life.", fr: "Là où il y a de l'amour, il y a de la vie.", de: "Wo Liebe ist, da ist auch Leben.", author: "Mahatma Gandhi" }
+        ];
+
+        var dailyQuotes = [];
+        var activeGallery = [];
+        var newsHeadlines = [];
+        var currentSlide = 0;
+        var quoteIndex = 0;
+        var langIndex = 0; // 0: ES, 1: EN, 2: FR, 3: DE
+        var languages = ['es', 'en', 'fr', 'de'];
+        var newsIndex = 0;
+        var lastDayProcessed = "";
+
+        // --- MOTORES DE DATOS ---
+        function fetchWeather() {
+            var url = "https://api.open-meteo.com/v1/forecast?latitude=-17.3895&longitude=-66.1568&current=temperature_2m,weather_code&timezone=auto";
+            fetch(url).then(function(res) { return res.json(); }).then(function(data) {
+                if (data.current) {
+                    document.getElementById('clima-temp').innerText = Math.round(data.current.temperature_2m) + "°";
+                    document.getElementById('clima-desc').innerHTML = "COCHABAMBA<br>" + (data.current.weather_code <= 3 ? "DESPEJADO" : "NUBOSIDAD");
+                }
+            });
+        }
+
+        function fetchAllNews() {
+            var sources = [
+                { name: "BBC Mundo", url: "https://feeds.bbci.co.uk/mundo/rss.xml" },
+                { name: "CNN en Español", url: "https://cnnespanol.cnn.com/feed/" },
+                { name: "Los Tiempos", url: "https://www.lostiempos.com/rss/portada" },
+                { name: "El Deber", url: "https://eldeber.com.bo/rss/portada" }
+            ];
+            
+            // ANTI-CACHE AGRESIVO: _t=ms para obligar a la TV a descargar info nueva
+            var promises = sources.map(function(src) {
+                var apiUrl = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(src.url) + "&count=10&_t=" + Date.now();
+                return fetch(apiUrl).then(function(r){ return r.json(); }).then(function(data){
+                    if(data.status === 'ok' && data.items) {
+                        return data.items.map(function(item) {
+                            return { title: item.title.trim(), source: src.name, date: formatRSSDate(item.pubDate) };
+                        });
+                    }
+                    return [];
+                }).catch(function(){ return []; });
+            });
+
+            Promise.all(promises).then(function(results) {
+                var merged = [].concat.apply([], results);
+                if (merged.length > 0) {
+                    newsHeadlines = merged.sort(function() { return 0.5 - Math.random(); });
+                }
+            });
+        }
+
+        function formatRSSDate(dateStr) {
+            if (!dateStr) return "";
+            try {
+                var d = new Date(dateStr);
+                return (d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) + " • " + d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })).toUpperCase();
+            } catch (e) { return "RECIENTE"; }
+        }
+
+        // --- LÓGICA DE INTERFAZ ---
+        function initDailyContent() {
+            var now = new Date();
+            var dayString = now.toDateString();
+            
+            dailyQuotes = allQuotes.slice().sort(function() { return 0.5 - Math.random(); });
+            
+            if (lastDayProcessed === dayString) return;
+
+            currentSlide = 0;
+            newsIndex = 0;
+            activeGallery = galleryData.slice().sort(function() { return 0.5 - Math.random(); });
+            
+            var container = document.getElementById('gallery-container');
+            container.innerHTML = "";
+            activeGallery.forEach(function(item, i) {
+                var div = document.createElement('div');
+                div.className = "slide" + (i === 0 ? " slide-active" : "");
+                div.style.backgroundImage = "url('" + item.url + "')";
+                container.appendChild(div);
+            });
+
+            setTimeout(function(){ 
+                document.getElementById('loader').style.opacity = "0"; 
+                setTimeout(function(){ document.getElementById('loader').style.display = "none"; }, 1000);
+                document.getElementById('main-layout').style.opacity = "1";
+                updateCaption();
+                rotateQuotes(); 
+                rotateNews();
+            }, 1000);
+
+            lastDayProcessed = dayString;
+        }
+
+        function cycleGallery() {
+            var slides = document.querySelectorAll('.slide');
+            if(slides.length === 0) return;
+            for(var i=0; i<slides.length; i++) { slides[i].classList.remove('slide-previous'); }
+            slides[currentSlide].classList.add('slide-previous');
+            slides[currentSlide].classList.remove('slide-active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('slide-active');
+            updateCaption();
+        }
+
+        // ROTACIÓN DE CITAS (CADA 25 SEG - CAMBIO DE IDIOMA)
+        function rotateQuotes() {
+            var display = document.getElementById('quote-display');
+            var authorEl = document.getElementById('quote-author');
+            if (dailyQuotes.length === 0) return;
+            
+            display.style.opacity = 0; authorEl.style.opacity = 0;
+            setTimeout(function() {
+                var currentQuote = dailyQuotes[quoteIndex];
+                var currentLangKey = languages[langIndex];
+                
+                display.innerText = currentQuote[currentLangKey];
+                authorEl.innerText = currentQuote.author.toUpperCase();
+                
+                display.style.opacity = 1; authorEl.style.opacity = 1;
+
+                // Avanzar al siguiente idioma, y si ya terminamos los 4, pasar a la siguiente cita
+                langIndex++;
+                if(langIndex >= languages.length) {
+                    langIndex = 0;
+                    quoteIndex = (quoteIndex + 1) % dailyQuotes.length;
+                }
+            }, 1000);
+        }
+
+        function rotateNews() {
+            var nDisp = document.getElementById('noticia-display');
+            var nFuente = document.getElementById('noticia-fuente');
+            if (newsHeadlines.length === 0) return;
+            
+            nDisp.style.opacity = 0; nFuente.style.opacity = 0;
+            setTimeout(function() {
+                var item = newsHeadlines[newsIndex];
+                if (item) {
+                    nDisp.children[0].innerText = item.date;
+                    nDisp.children[1].innerText = item.title;
+                    nFuente.innerText = item.source.toUpperCase();
+                    nDisp.style.opacity = 1; nFuente.style.opacity = 1;
+                    newsIndex = (newsIndex + 1) % newsHeadlines.length;
+                }
+            }, 1000);
+        }
+
+        function updateCaption() {
+            var infoEl = document.getElementById('info-obra');
+            var currentArt = activeGallery[currentSlide];
+            infoEl.style.opacity = 0;
+            setTimeout(function() {
+                if(currentArt) {
+                    infoEl.innerText = currentArt.title + " • " + currentArt.author;
+                    infoEl.style.opacity = 0.5;
+                }
+            }, 1000);
+        }
+
+        function updateClock() {
+            var now = new Date();
+            document.getElementById('reloj').innerText = now.toLocaleTimeString('es-BO', {hour: '2-digit', minute:'2-digit', hour12: false});
+            document.getElementById('fecha-texto').innerText = now.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase();
+            if (now.toDateString() !== lastDayProcessed) { initDailyContent(); fetchAllNews(); }
+        }
+
+        window.onload = function() {
+            initDailyContent();
+            updateClock();
+            fetchWeather();
+            fetchAllNews();
+            
+            setInterval(updateClock, 1000);
+            setInterval(cycleGallery, 45000); 
+            
+            // CAMBIOS CONTINUOS
+            setInterval(rotateQuotes, 25000); // Cambio de IDIOMA cada 25 seg
+            setInterval(rotateNews, 30000);   // Noticias cada 30 seg
+            
+            // REFRESH DE FONDO
+            setInterval(fetchWeather, 20 * 60 * 1000);
+            setInterval(fetchAllNews, 10 * 60 * 1000); // Sincronización real cada 10 min
+        };
+    </script>
+</body>
+</html>
