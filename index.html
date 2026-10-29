@@ -667,7 +667,7 @@
             }).catch(() => {});
         }
 
-        // --- SISTEMA DE ALERTAS MATUTINAS FAMILIARES (7:00 a 7:40, Días de Semana) ---
+        // --- SISTEMA DE ALERTAS MATUTINAS FAMILIARES (7:00 a 7:48, Días de Semana) ---
         const morningMessages = [
             "Deja de leer, come",
             "Apure niña",
@@ -749,8 +749,8 @@
             const h = now.getHours();
             const m = now.getMinutes();
 
-            // Solo días de semana (L-V) entre 7:00 y 7:40
-            const inWindow = (day >= 1 && day <= 5) && (h === 7 && m >= 0 && m <= 40);
+            // Solo días de semana (L-V) entre 7:00 y 7:48
+            const inWindow = (day >= 1 && day <= 5) && (h === 7 && m >= 0 && m <= 48);
 
             if (!inWindow) {
                 nextMorningAlertMs = 0;
