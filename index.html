@@ -241,6 +241,11 @@
 
     <div id="info-obra" class="opacity-0">Zen Dash • Arte</div>
 
+    <!-- Pantalla completa para avisos matutinos familiares -->
+    <div id="morning-alert" class="fixed inset-0 bg-black z-50 flex items-center justify-center p-8 opacity-0 pointer-events-none transition-opacity duration-1000">
+        <div id="morning-alert-text" class="text-white text-center font-bold tracking-tight leading-tight select-none" style="font-size: min(7vw, 5.5rem); text-shadow: 0 4px 30px rgba(255,255,255,0.2);"></div>
+    </div>
+
     <script>
         let activeGallery = [];
         let dailyQuotes = [];
@@ -662,6 +667,118 @@
             }).catch(() => {});
         }
 
+        // --- SISTEMA DE ALERTAS MATUTINAS FAMILIARES (7:00 a 7:40, Días de Semana) ---
+        const morningMessages = [
+            "Deja de leer, come",
+            "Apure niña",
+            "Hagale caso a sus padres"
+        ];
+        let nextMorningAlertMs = 0;
+        let morningAlertActive = false;
+
+        function playMacAlertSound() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                const t = ctx.currentTime;
+
+                // Síntesis armónica cristalina inspirada en la clásica campana/alerta de Mac ("Glass / Ping")
+                const partials = [
+                    { f: 987.77, gain: 0.5, decay: 1.1, type: 'sine' },       // Tono principal B5
+                    { f: 1975.53, gain: 0.28, decay: 0.8, type: 'sine' },      // Armónico B6
+                    { f: 2963.30, gain: 0.15, decay: 0.5, type: 'triangle' },  // F#7
+                    { f: 3951.07, gain: 0.08, decay: 0.35, type: 'sine' }      // Brillo superior B7
+                ];
+
+                partials.forEach(p => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = p.type;
+                    osc.frequency.setValueAtTime(p.f, t);
+
+                    gain.gain.setValueAtTime(0, t);
+                    gain.gain.linearRampToValueAtTime(p.gain, t + 0.015);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, t + p.decay);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(t);
+                    osc.stop(t + p.decay + 0.1);
+                });
+            } catch(e) {
+                console.warn("Audio no disponible:", e);
+            }
+        }
+
+        function triggerMorningAlert(customMsg) {
+            if (morningAlertActive) return;
+            morningAlertActive = true;
+
+            const overlay = document.getElementById('morning-alert');
+            const textEl = document.getElementById('morning-alert-text');
+            if (!overlay || !textEl) return;
+
+            const msg = customMsg || morningMessages[Math.floor(Math.random() * morningMessages.length)];
+            textEl.innerText = msg;
+
+            // Reproducir sonido clásico de alerta
+            playMacAlertSound();
+
+            // Mostrar pantalla completa negra con fade-in suave
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100', 'pointer-events-auto');
+
+            // Mantener visible durante 9 segundos y desvanecer suavemente
+            setTimeout(() => {
+                overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    morningAlertActive = false;
+                }, 1000);
+            }, 9000);
+        }
+
+        function checkMorningAlertSchedule() {
+            const now = new Date();
+            const day = now.getDay(); // 1 = Lunes ... 5 = Viernes
+            const h = now.getHours();
+            const m = now.getMinutes();
+
+            // Solo días de semana (L-V) entre 7:00 y 7:40
+            const inWindow = (day >= 1 && day <= 5) && (h === 7 && m >= 0 && m <= 40);
+
+            if (!inWindow) {
+                nextMorningAlertMs = 0;
+                return;
+            }
+
+            const currentMs = Date.now();
+            if (nextMorningAlertMs === 0) {
+                // Programar el primer aviso al azar entre 2 y 7 minutos
+                nextMorningAlertMs = currentMs + (Math.floor(Math.random() * 6) + 2) * 60 * 1000;
+                return;
+            }
+
+            if (currentMs >= nextMorningAlertMs) {
+                triggerMorningAlert();
+                // Próximo aviso aleatorio entre 6 y 11 minutos
+                nextMorningAlertMs = currentMs + (Math.floor(Math.random() * 6) + 6) * 60 * 1000;
+            }
+        }
+
+        // Permite probar en cualquier momento desde consola (testMorningAlert()) o pulsando la tecla 'M'
+        window.testMorningAlert = triggerMorningAlert;
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'm' || e.key === 'M') {
+                triggerMorningAlert();
+            }
+        });
+
         window.onload = function() {
             var now = new Date();
             lastDay = now.toDateString();
@@ -697,13 +814,15 @@
 
             updateClock();
             fetchWeather();
+            checkMorningAlertSchedule();
             
             setInterval(updateClock, 1000);
             setInterval(cycleGallery, 45000);
             setInterval(rotateQuotes, 25000);
             setInterval(rotateNews, 30000);
             setInterval(fetchWeather, 30 * 60 * 1000);
-            setInterval(fetchAllNews, 15 * 60 * 1000); 
+            setInterval(fetchAllNews, 15 * 60 * 1000);
+            setInterval(checkMorningAlertSchedule, 20000);
         };
     </script>
 </body>
