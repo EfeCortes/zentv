@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Dash TV - Museo Políglota v5.2</title>
+    <title>Zen Dash TV - Museo Políglota v5.3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
@@ -217,6 +217,7 @@
         #morning-alert.active {
             opacity: 1 !important;
             pointer-events: auto !important;
+            cursor: pointer;
         }
 
         #morning-alert-text {
@@ -226,9 +227,9 @@
             letter-spacing: -0.02em;
             line-height: 1.15;
             user-select: none;
-            font-size: min(7vw, 5.5rem);
-            text-shadow: 0 4px 40px rgba(255, 255, 255, 0.25);
-            max-width: 85vw;
+            font-size: clamp(3.5rem, 9.5vw, 8rem);
+            text-shadow: 0 4px 50px rgba(255, 255, 255, 0.3);
+            max-width: 90vw;
         }
     </style>
 </head>
@@ -709,6 +710,22 @@
         ];
         let nextMorningAlertMs = 0;
         let morningAlertActive = false;
+        let morningAlertTimer = null;
+
+        function dismissMorningAlert() {
+            if (!morningAlertActive) return;
+            const overlay = document.getElementById('morning-alert');
+            if (morningAlertTimer) {
+                clearTimeout(morningAlertTimer);
+                morningAlertTimer = null;
+            }
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+            setTimeout(() => {
+                morningAlertActive = false;
+            }, 800);
+        }
 
         function playMacAlertSound() {
             try {
@@ -769,12 +786,10 @@
             // Activar pantalla negra absoluta con fade-in suave
             overlay.classList.add('active');
 
-            // Mantener visible durante 6 segundos y desvanecer suavemente
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                setTimeout(() => {
-                    morningAlertActive = false;
-                }, 1000);
+            // Desvanecer automáticamente tras 6 segundos si no se hace clic antes
+            if (morningAlertTimer) clearTimeout(morningAlertTimer);
+            morningAlertTimer = setTimeout(() => {
+                dismissMorningAlert();
             }, 6000);
         }
 
@@ -808,15 +823,33 @@
 
         // Atajos para probar en cualquier momento: tecla M, clic en el reloj o doble clic en pantalla
         window.testMorningAlert = triggerMorningAlert;
+        window.dismissMorningAlert = dismissMorningAlert;
+
+        // Al hacer clic sobre el aviso en pantalla completa, vuelve a la normalidad de inmediato
+        const morningOverlayEl = document.getElementById('morning-alert');
+        if (morningOverlayEl) {
+            morningOverlayEl.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dismissMorningAlert();
+            });
+        }
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'm' || e.key === 'M' || e.code === 'KeyM') {
-                triggerMorningAlert();
+                if (morningAlertActive) {
+                    dismissMorningAlert();
+                } else {
+                    triggerMorningAlert();
+                }
+            } else if (e.key === 'Escape' && morningAlertActive) {
+                dismissMorningAlert();
             }
         });
 
         document.addEventListener('dblclick', () => {
-            triggerMorningAlert();
+            if (!morningAlertActive) {
+                triggerMorningAlert();
+            }
         });
 
         window.onload = function() {
