@@ -196,6 +196,40 @@
             z-index: 100;
             transition: opacity 1.5s ease-in-out;
         }
+
+        #morning-alert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        #morning-alert.active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        #morning-alert-text {
+            color: #fff;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            user-select: none;
+            font-size: min(7vw, 5.5rem);
+            text-shadow: 0 4px 40px rgba(255, 255, 255, 0.25);
+            max-width: 85vw;
+        }
     </style>
 </head>
 <body>
@@ -242,8 +276,8 @@
     <div id="info-obra" class="opacity-0">Zen Dash • Arte</div>
 
     <!-- Pantalla completa para avisos matutinos familiares -->
-    <div id="morning-alert" class="fixed inset-0 bg-black z-50 flex items-center justify-center p-8 opacity-0 pointer-events-none transition-opacity duration-1000">
-        <div id="morning-alert-text" class="text-white text-center font-bold tracking-tight leading-tight select-none" style="font-size: min(7vw, 5.5rem); text-shadow: 0 4px 30px rgba(255,255,255,0.2);"></div>
+    <div id="morning-alert">
+        <div id="morning-alert-text"></div>
     </div>
 
     <script>
@@ -721,7 +755,10 @@
 
             const overlay = document.getElementById('morning-alert');
             const textEl = document.getElementById('morning-alert-text');
-            if (!overlay || !textEl) return;
+            if (!overlay || !textEl) {
+                morningAlertActive = false;
+                return;
+            }
 
             const msg = customMsg || morningMessages[Math.floor(Math.random() * morningMessages.length)];
             textEl.innerText = msg;
@@ -729,14 +766,12 @@
             // Reproducir sonido clásico de alerta
             playMacAlertSound();
 
-            // Mostrar pantalla completa negra con fade-in suave
-            overlay.classList.remove('opacity-0', 'pointer-events-none');
-            overlay.classList.add('opacity-100', 'pointer-events-auto');
+            // Activar pantalla negra absoluta con fade-in suave
+            overlay.classList.add('active');
 
             // Mantener visible durante 9 segundos y desvanecer suavemente
             setTimeout(() => {
-                overlay.classList.remove('opacity-100', 'pointer-events-auto');
-                overlay.classList.add('opacity-0', 'pointer-events-none');
+                overlay.classList.remove('active');
                 setTimeout(() => {
                     morningAlertActive = false;
                 }, 1000);
@@ -771,12 +806,17 @@
             }
         }
 
-        // Permite probar en cualquier momento desde consola (testMorningAlert()) o pulsando la tecla 'M'
+        // Atajos para probar en cualquier momento: tecla M, clic en el reloj o doble clic en pantalla
         window.testMorningAlert = triggerMorningAlert;
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'm' || e.key === 'M') {
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'm' || e.key === 'M' || e.code === 'KeyM') {
                 triggerMorningAlert();
             }
+        });
+
+        document.addEventListener('dblclick', () => {
+            triggerMorningAlert();
         });
 
         window.onload = function() {
@@ -815,6 +855,13 @@
             updateClock();
             fetchWeather();
             checkMorningAlertSchedule();
+
+            const relojEl = document.getElementById('reloj');
+            if (relojEl) {
+                relojEl.style.cursor = 'pointer';
+                relojEl.title = "Haz clic para probar el aviso";
+                relojEl.addEventListener('click', () => triggerMorningAlert());
+            }
             
             setInterval(updateClock, 1000);
             setInterval(cycleGallery, 45000);
