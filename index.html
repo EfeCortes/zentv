@@ -705,7 +705,7 @@
         const morningMessages = [
             "Deja de leer, come",
             "Apure niña",
-            "Hagale caso a sus padres"
+            "Hágale caso a sus padres"
         ];
         let nextMorningAlertMs = 0;
         let morningAlertActive = false;
@@ -769,13 +769,13 @@
             // Activar pantalla negra absoluta con fade-in suave
             overlay.classList.add('active');
 
-            // Mantener visible durante 9 segundos y desvanecer suavemente
+            // Mantener visible durante 6 segundos y desvanecer suavemente
             setTimeout(() => {
                 overlay.classList.remove('active');
                 setTimeout(() => {
                     morningAlertActive = false;
                 }, 1000);
-            }, 9000);
+            }, 6000);
         }
 
         function checkMorningAlertSchedule() {
