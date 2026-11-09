@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Dash TV - Museo Políglota v5.3</title>
+    <title>Zen Dash TV - Museo Políglota v5.4</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
@@ -525,8 +525,13 @@
                 rotateNews();
             }
 
-            // Llamada al endpoint optimizado de Netlify Functions
-            fetch('/api/news')
+            // Carga de noticias desde news.json (actualizado automáticamente por GitHub Actions)
+            const cacheBuster = Math.floor(Date.now() / 300000); // Refresca caché cada 5 min
+            fetch(`./news.json?t=${cacheBuster}`)
+                .then(r => {
+                    if (!r.ok) return fetch('/api/news'); // Fallback alternativo
+                    return r;
+                })
                 .then(r => {
                     if (!r.ok) throw new Error("HTTP " + r.status);
                     return r.json();
@@ -547,7 +552,7 @@
                     }
                 })
                 .catch(err => {
-                    console.warn("No se pudo conectar con /api/news, usando respaldo local:", err);
+                    console.warn("No se pudo conectar con news.json, usando respaldo cultural:", err);
                     if (newsHeadlines.length === 0) {
                         newsHeadlines = fallbackHeadlines;
                         rotateNews();
