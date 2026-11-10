@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Dash TV - Museo Políglota v5.5</title>
+    <title>Zen Dash TV - Museo Políglota v5.6</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Kalam:wght@700&family=Montserrat:wght@100;300;500;700;900&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -223,12 +223,13 @@
         #morning-alert-text {
             color: #fff;
             text-align: center;
-            font-weight: 800;
-            letter-spacing: -0.02em;
+            font-family: 'Patrick Hand', cursive;
+            font-weight: 700;
+            letter-spacing: 0.02em;
             line-height: 1.15;
             user-select: none;
-            font-size: clamp(3.5rem, 9.5vw, 8rem);
-            text-shadow: 0 4px 50px rgba(255, 255, 255, 0.3);
+            font-size: clamp(3.8rem, 10vw, 8.5rem);
+            text-shadow: 0 4px 40px rgba(255, 255, 255, 0.25);
             max-width: 90vw;
         }
     </style>
@@ -814,8 +815,10 @@
             const msg = customMsg || defaultPool[Math.floor(Math.random() * defaultPool.length)];
             textEl.innerText = msg;
 
-            // Reproducir campanilla suave y relajante
-            playGentleChime();
+            // Reproducir al azar uno de los 3 sonidos suaves y relajantes (cuenco zen, kalimba, arpa)
+            const availableSounds = ['bowl', 'kalimba', 'harp'];
+            const randomSound = availableSounds[Math.floor(Math.random() * availableSounds.length)];
+            playGentleSound(randomSound);
 
             // Activar pantalla negra absoluta con fade-in suave
             overlay.classList.add('active');
@@ -908,6 +911,19 @@
             } else if (e.key === '3') {
                 currentSoundProfile = 'harp';
                 playGentleSound('harp');
+            } else if (e.key === 'c' || e.key === 'C') {
+                // Alternar fuentes de estilo cómic
+                const fonts = [
+                    { name: 'Patrick Hand (Tira Cómica Clásica)', css: "'Patrick Hand', cursive" },
+                    { name: 'Bangers (Portada de Cómic / Pop Art)', css: "'Bangers', cursive" },
+                    { name: 'Kalam (Letra Manuscrita de Cómic)', css: "'Kalam', cursive" }
+                ];
+                window.comicFontIdx = ((window.comicFontIdx || 0) + 1) % fonts.length;
+                const chosen = fonts[window.comicFontIdx];
+                const textEl = document.getElementById('morning-alert-text');
+                if (textEl) textEl.style.fontFamily = chosen.css;
+                console.log("Tipografía cómic activa:", chosen.name);
+                triggerFamilyAlert();
             } else if (e.key === 'Escape' && alertActive) {
                 dismissFamilyAlert();
             }
