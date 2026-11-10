@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Dash TV - Museo Políglota v5.6</title>
+    <title>Zen Dash TV - Museo Políglota v5.7</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @font-face {
+            font-family: 'Quino';
+            src: url('./fonts/Quino.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Kalam:wght@700&family=Montserrat:wght@100;300;500;700;900&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
         body {
@@ -223,10 +231,10 @@
         #morning-alert-text {
             color: #fff;
             text-align: center;
-            font-family: 'Patrick Hand', cursive;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            line-height: 1.15;
+            font-family: 'Quino', 'Patrick Hand', cursive;
+            font-weight: normal;
+            letter-spacing: 0.04em;
+            line-height: 1.2;
             user-select: none;
             font-size: clamp(3.8rem, 10vw, 8.5rem);
             text-shadow: 0 4px 40px rgba(255, 255, 255, 0.25);
@@ -912,8 +920,9 @@
                 currentSoundProfile = 'harp';
                 playGentleSound('harp');
             } else if (e.key === 'c' || e.key === 'C') {
-                // Alternar fuentes de estilo cómic
+                // Alternar fuentes de estilo historieta / cómic
                 const fonts = [
+                    { name: 'Quino (Historieta Mafalda)', css: "'Quino', cursive, sans-serif" },
                     { name: 'Patrick Hand (Tira Cómica Clásica)', css: "'Patrick Hand', cursive" },
                     { name: 'Bangers (Portada de Cómic / Pop Art)', css: "'Bangers', cursive" },
                     { name: 'Kalam (Letra Manuscrita de Cómic)', css: "'Kalam', cursive" }
