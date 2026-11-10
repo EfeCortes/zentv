@@ -736,8 +736,11 @@
             }, 800);
         }
 
-        // Sonido suave, cálido y relajante (cuenco tibetano / campanilla Zen suave)
-        function playGentleChime() {
+        // Selector de sonido actual ('bowl', 'kalimba', 'harp')
+        let currentSoundProfile = 'bowl';
+
+        // Motor de sonidos relajantes
+        function playGentleSound(profile = currentSoundProfile) {
             try {
                 const AudioCtx = window.AudioContext || window.webkitAudioContext;
                 if (!AudioCtx) return;
@@ -747,22 +750,39 @@
                 }
                 const t = ctx.currentTime;
 
-                // Acorde cálido en 432 Hz con armónicos suaves, sin golpes secos ni agudos agresivos
-                const notes = [
-                    { f: 432.0, gain: 0.16, decay: 2.8, delay: 0.0 },   // Fundamental A4 (432Hz)
-                    { f: 540.0, gain: 0.10, decay: 2.5, delay: 0.04 },  // C#5 cálido
-                    { f: 648.0, gain: 0.07, decay: 2.2, delay: 0.08 }   // E5 suave
-                ];
+                let notes = [];
+
+                if (profile === 'bowl') {
+                    // 1. Cuenco Zen: Resonancia cálida y profunda en 432 Hz
+                    notes = [
+                        { f: 432.0, gain: 0.16, decay: 2.8, delay: 0.0, type: 'sine' },
+                        { f: 540.0, gain: 0.09, decay: 2.4, delay: 0.03, type: 'sine' },
+                        { f: 648.0, gain: 0.06, decay: 2.0, delay: 0.06, type: 'sine' }
+                    ];
+                } else if (profile === 'kalimba') {
+                    // 2. Kalimba / Madera suave: Dos notas cálidas y amables (gota de agua / xilófono suave)
+                    notes = [
+                        { f: 523.25, gain: 0.15, decay: 1.2, delay: 0.0, type: 'sine' },  // C5
+                        { f: 783.99, gain: 0.12, decay: 1.6, delay: 0.14, type: 'sine' }  // G5
+                    ];
+                } else if (profile === 'harp') {
+                    // 3. Arpa / Viento etéreo: Arpegio ascendente celestial muy sutil
+                    notes = [
+                        { f: 349.23, gain: 0.11, decay: 2.2, delay: 0.0, type: 'sine' },   // F4
+                        { f: 440.00, gain: 0.10, decay: 2.0, delay: 0.12, type: 'sine' },  // A4
+                        { f: 523.25, gain: 0.09, decay: 2.4, delay: 0.24, type: 'sine' }   // C5
+                    ];
+                }
 
                 notes.forEach(p => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
-                    osc.type = 'sine';
+                    osc.type = p.type || 'sine';
                     osc.frequency.setValueAtTime(p.f, t + p.delay);
 
                     gain.gain.setValueAtTime(0.0001, t + p.delay);
-                    // Entrada suave (80ms) para que no sobresalte
-                    gain.gain.linearRampToValueAtTime(p.gain, t + p.delay + 0.08);
+                    // Ataque suave para evitar cualquier golpe brusco
+                    gain.gain.linearRampToValueAtTime(p.gain, t + p.delay + 0.06);
                     gain.gain.exponentialRampToValueAtTime(0.0001, t + p.delay + p.decay);
 
                     osc.connect(gain);
@@ -775,6 +795,7 @@
                 console.warn("Audio no disponible:", e);
             }
         }
+        const playGentleChime = playGentleSound;
 
         function triggerFamilyAlert(customMsg) {
             if (alertActive) return;
@@ -853,6 +874,8 @@
         window.dismissMorningAlert = dismissFamilyAlert;
         window.dismissFamilyAlert = dismissFamilyAlert;
         window.playGentleChime = playGentleChime;
+        window.playGentleSound = playGentleSound;
+        window.setSoundProfile = (p) => { currentSoundProfile = p; playGentleSound(p); console.log("Sonido activo:", p); };
 
         // Al hacer clic sobre el aviso en pantalla completa, vuelve a la normalidad de inmediato
         const morningOverlayEl = document.getElementById('morning-alert');
@@ -876,6 +899,15 @@
                 } else {
                     triggerFamilyAlert("Tranquila, Sara");
                 }
+            } else if (e.key === '1') {
+                currentSoundProfile = 'bowl';
+                playGentleSound('bowl');
+            } else if (e.key === '2') {
+                currentSoundProfile = 'kalimba';
+                playGentleSound('kalimba');
+            } else if (e.key === '3') {
+                currentSoundProfile = 'harp';
+                playGentleSound('harp');
             } else if (e.key === 'Escape' && alertActive) {
                 dismissFamilyAlert();
             }
