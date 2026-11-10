@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Dash TV - Museo Políglota v5.8</title>
+    <title>Zen Dash TV - Museo Políglota v5.9</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'Quino';
-            src: url('./fonts/Quino.otf') format('opentype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Kalam:wght@700&family=Montserrat:wght@100;300;400;500;700;900&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -919,20 +914,6 @@
             } else if (e.key === '3') {
                 currentSoundProfile = 'harp';
                 playGentleSound('harp');
-            } else if (e.key === 'c' || e.key === 'C') {
-                // Alternar fuentes de estilo historieta / cómic
-                const fonts = [
-                    { name: 'Quino (Historieta Mafalda)', css: "'Quino', cursive, sans-serif" },
-                    { name: 'Patrick Hand (Tira Cómica Clásica)', css: "'Patrick Hand', cursive" },
-                    { name: 'Bangers (Portada de Cómic / Pop Art)', css: "'Bangers', cursive" },
-                    { name: 'Kalam (Letra Manuscrita de Cómic)', css: "'Kalam', cursive" }
-                ];
-                window.comicFontIdx = ((window.comicFontIdx || 0) + 1) % fonts.length;
-                const chosen = fonts[window.comicFontIdx];
-                const textEl = document.getElementById('morning-alert-text');
-                if (textEl) textEl.style.fontFamily = chosen.css;
-                console.log("Tipografía cómic activa:", chosen.name);
-                triggerFamilyAlert();
             } else if (e.key === 'Escape' && alertActive) {
                 dismissFamilyAlert();
             }
