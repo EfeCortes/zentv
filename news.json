@@ -1,38 +1,8 @@
 [
   {
-    "title": "JPMorgan, Bank of America y Citibank advierten que los clientes serán responsables por los errores de agentes de IA en sus cuentas bancarias",
-    "source": "Infobae",
-    "date": "Fri, 20 Nov 2026 13:34:00 GMT"
-  },
-  {
-    "title": "Cómo una taza de té mal servida transformó la estadística y abrió el camino a la ciencia de los datos",
-    "source": "BBC Mundo",
-    "date": "Sat, 21 Nov 2026 09:51:54 GMT"
-  },
-  {
-    "title": "\"Me cuestionaba por qué vine a este mundo con piel morena, cuando mi padre era blanco\": BBC Mundo entrevista a la cantante mexicana Lila Downs",
-    "source": "BBC Mundo",
-    "date": "Fri, 20 Nov 2026 11:36:37 GMT"
-  },
-  {
-    "title": "La bolsa de Wall Street cae con fuerza en medio del desplome de las acciones de las tecnológicas y registra su peor semana desde la pandemia",
-    "source": "BBC Mundo",
-    "date": "Fri, 20 Nov 2026 23:15:44 GMT"
-  },
-  {
-    "title": "Wall Street se hunde por la caída de las acciones tecnológicas; el S&P 500 entra en corrección",
-    "source": "Univision",
-    "date": "Fri, 20 Nov 2026 20:56:09 GMT"
-  },
-  {
-    "title": "Un matemático de Anthropic asegura haber resuelto la hipótesis de Riemann, el mayor enigma de las matemáticas, con ayuda de la IA",
+    "title": "Amenazas de muerte, insultos y humillaciones: el lado oscuro del liderazgo de Jensen Huang en Nvidia",
     "source": "EL PAÍS",
-    "date": "Sat, 21 Nov 2026 01:12:10 GMT"
-  },
-  {
-    "title": "\"Los asesinatos se convirtieron en ficción\": cómo la prensa sensacionalista del siglo XIX creó el mito de Jack el Destripador",
-    "source": "BBC Mundo",
-    "date": "Sat, 21 Nov 2026 13:58:32 GMT"
+    "date": "Fri, 20 Nov 2026 17:21:03 GMT"
   },
   {
     "title": "Tesla mata la Cybertruck: qué salió mal con la camioneta que Elon Musk llamó su mejor producto",
@@ -40,29 +10,9 @@
     "date": "Sat, 21 Nov 2026 13:37:00 GMT"
   },
   {
-    "title": "Los hermanos Amodei y la cultura singular que convirtió a Anthropic en una compañía valorada en más de un billón de dólares",
-    "source": "Infobae",
-    "date": "Sat, 21 Nov 2026 16:53:00 GMT"
-  },
-  {
-    "title": "\"Hay una parte de mí que va aprendiendo a ser viejo, pero hay otra a la que le cuesta muchísimo\": Jorge Drexler",
-    "source": "BBC Mundo",
-    "date": "Sat, 21 Nov 2026 12:21:16 GMT"
-  },
-  {
-    "title": "\"No quise negociar la sangre de mi hija\": la madre de una adolescente muerta a tiros en las protestas en Irán exige justicia desde el exilio",
-    "source": "BBC Mundo",
-    "date": "Sat, 21 Nov 2026 05:02:06 GMT"
-  },
-  {
-    "title": "Amenazas de muerte, insultos y humillaciones: el lado oscuro del liderazgo de Jensen Huang en Nvidia",
-    "source": "EL PAÍS",
-    "date": "Fri, 20 Nov 2026 17:21:03 GMT"
-  },
-  {
-    "title": "La inteligencia artificial eliminará muchos empleos. ¿Qué deberían estudiar tus hijos ahora?",
-    "source": "CNN en Español",
-    "date": "Fri, 20 Nov 2026 15:53:00 GMT"
+    "title": "Ciberataques contra el Departamento de Agricultura de EEUU y el FBI",
+    "source": "El Mundo",
+    "date": "Sat, 21 Nov 2026 18:04:09 GMT"
   },
   {
     "title": "Cómo atraparon al \"Chapo Isidro\", uno de los 10 narcotraficantes de México más buscados por el FBI",
@@ -70,14 +20,49 @@
     "date": "Sat, 21 Nov 2026 16:56:26 GMT"
   },
   {
+    "title": "La inteligencia artificial eliminará muchos empleos. ¿Qué deberían estudiar tus hijos ahora?",
+    "source": "CNN en Español",
+    "date": "Fri, 20 Nov 2026 15:53:00 GMT"
+  },
+  {
+    "title": "Un empleado de Anthropic afirma haber resuelto el \"Santo Grial\" de los problemas matemáticos con ayuda de la IA",
+    "source": "CNN en Español",
+    "date": "Sat, 21 Nov 2026 15:50:00 GMT"
+  },
+  {
+    "title": "Kate Middleton habla abiertamente sobre cómo el cáncer cambió su vida en un documental de la BBC",
+    "source": "BBC Mundo",
+    "date": "Sat, 21 Nov 2026 22:57:24 GMT"
+  },
+  {
+    "title": "JPMorgan, Bank of America y Citibank advierten que los clientes serán responsables por los errores de agentes de IA en sus cuentas bancarias",
+    "source": "Infobae",
+    "date": "Fri, 20 Nov 2026 13:34:00 GMT"
+  },
+  {
+    "title": "\"Me cuestionaba por qué vine a este mundo con piel morena, cuando mi padre era blanco\": BBC Mundo entrevista a la cantante mexicana Lila Downs",
+    "source": "BBC Mundo",
+    "date": "Fri, 20 Nov 2026 11:36:37 GMT"
+  },
+  {
+    "title": "Outlook, los vuelos y Apple fallaron en seis días: la explicación oficial es peor que un ataque",
+    "source": "Infobae",
+    "date": "Sat, 21 Nov 2026 13:59:00 GMT"
+  },
+  {
     "title": "Los gritos de un reo durante su ejecución en Texas reavivan el debate sobre la pena de muerte en EE.UU.",
     "source": "BBC Mundo",
     "date": "Fri, 20 Nov 2026 17:20:55 GMT"
   },
   {
-    "title": "Ciberataques contra el Departamento de Agricultura de EEUU y el FBI",
-    "source": "El Mundo",
-    "date": "Sat, 21 Nov 2026 18:04:09 GMT"
+    "title": "\"Hay una parte de mí que va aprendiendo a ser viejo, pero hay otra a la que le cuesta muchísimo\": Jorge Drexler",
+    "source": "BBC Mundo",
+    "date": "Sat, 21 Nov 2026 12:21:16 GMT"
+  },
+  {
+    "title": "Wall Street se hunde por la caída de las acciones tecnológicas; el S&P 500 entra en corrección",
+    "source": "Univision",
+    "date": "Fri, 20 Nov 2026 20:56:09 GMT"
   },
   {
     "title": "El Departamento de Seguridad Nacional aconseja a sus empleados no hablar de su trabajo durante las fiestas",
@@ -90,13 +75,28 @@
     "date": "Sat, 21 Nov 2026 18:52:41 GMT"
   },
   {
-    "title": "Outlook, los vuelos y Apple fallaron en seis días: la explicación oficial es peor que un ataque",
+    "title": "Los hermanos Amodei y la cultura singular que convirtió a Anthropic en una compañía valorada en más de un billón de dólares",
     "source": "Infobae",
-    "date": "Sat, 21 Nov 2026 13:59:00 GMT"
+    "date": "Sat, 21 Nov 2026 16:53:00 GMT"
+  },
+  {
+    "title": "\"No quise negociar la sangre de mi hija\": la madre de una adolescente muerta a tiros en las protestas en Irán exige justicia desde el exilio",
+    "source": "BBC Mundo",
+    "date": "Sat, 21 Nov 2026 05:02:06 GMT"
   },
   {
     "title": "Lo que podemos aprender de una antigua ciudad subterránea de Turquía sobre cómo escapar del calor y el frío extremos",
     "source": "BBC Mundo",
     "date": "Sat, 21 Nov 2026 09:10:38 GMT"
+  },
+  {
+    "title": "Cómo una taza de té mal servida transformó la estadística y abrió el camino a la ciencia de los datos",
+    "source": "BBC Mundo",
+    "date": "Sat, 21 Nov 2026 09:51:54 GMT"
+  },
+  {
+    "title": "\"Los asesinatos se convirtieron en ficción\": cómo la prensa sensacionalista del siglo XIX creó el mito de Jack el Destripador",
+    "source": "BBC Mundo",
+    "date": "Sat, 21 Nov 2026 13:58:32 GMT"
   }
 ]
