@@ -1,128 +1,33 @@
 [
   {
-    "title": "Jensen Huang vuelve a las oficinas de Nvidia entre ovaciones de los empleados",
-    "source": "El País América",
-    "date": "Mon, 23 Nov 2026 19:26:16 GMT"
-  },
-  {
-    "title": "Tamagotchi cumple 30 años, de mascota virtual a icono de la moda dosmilera",
+    "title": "El primer ministro británico insiste que volver a la UE \"no está sobre la mesa\"",
     "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 12:44:00 GMT"
-  },
-  {
-    "title": "El extraordinario hallazgo de un cementerio de osos de las cavernas que se extinguieron hace 24.000 años",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 16:42:07 GMT"
-  },
-  {
-    "title": "Un ‘fracaso catastrófico’: supervisores descubren una ola de problemas en la capacitación del ICE",
-    "source": "The New York Times",
-    "date": "Sun, 22 Nov 2026 07:00:06 GMT"
-  },
-  {
-    "title": "La indignación por la detención de un mexicano y su hija por agentes de ICE cuando abordaban un vuelo en el aeropuerto de Seattle",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 11:25:12 GMT"
-  },
-  {
-    "title": "Amante de ex director ejecutivo de Nvidia mantuvo contactos con el servicio de inteligencia de Pekín, según el NYT",
-    "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 13:17:00 GMT"
-  },
-  {
-    "title": "Última hora de Nvidia, en vivo: regreso de Jensen Huang como CEO, precio de las acciones y más",
-    "source": "CNN en Español",
-    "date": "Mon, 23 Nov 2026 19:25:00 GMT"
-  },
-  {
-    "title": "La entrevista de la BBC a Litvinenko tras el envenenamiento que cambió la relación de Rusia con Occidente hace 20 años",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 04:00:58 GMT"
+    "date": "Mon, 23 Nov 2026 22:10:00 GMT"
   },
   {
     "title": "Dos tormentas amenazan los planes para el Día de Acción de Gracias de costa a costa en EE.UU.",
     "source": "CNN en Español",
-    "date": "Mon, 23 Nov 2026 06:23:00 GMT"
+    "date": "Tue, 24 Nov 2026 03:28:00 GMT"
   },
   {
-    "title": "El consejo de administración de Nvidia vuelve a nombrar a Jensen Huang como CEO y presidente",
-    "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 14:38:00 GMT"
-  },
-  {
-    "title": "ICE detiene a una estudiante de doctorado de Princeton en un aeropuerto de Washington D.C.",
+    "title": "\"Querida Gina Hinojosa\": Las cartas de mujeres a la gobernadora de Texas desde el centro de detención de ICE en Dilley",
     "source": "Univision",
-    "date": "Sun, 22 Nov 2026 20:54:18 GMT"
+    "date": "Mon, 23 Nov 2026 22:38:29 GMT"
   },
   {
-    "title": "Dos hombres en mi vida: cómo un accidente de tráfico me enseñó nuevas formas de amar",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 14:45:43 GMT"
-  },
-  {
-    "title": "¿Quiénes son los Murciélagos del Ejército y los Lobos de la Guardia Nacional que atraparon a \"El Chapo Isidro\"?",
-    "source": "Infobae",
-    "date": "Mon, 23 Nov 2026 10:04:00 GMT"
-  },
-  {
-    "title": "La FIFA concede a EE. UU., México, Costa Rica y Jamaica el Mundial femenino de 2031",
+    "title": "Así es el plan de ahorro infantil para la jubilación en Alemania",
     "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 18:02:00 GMT"
+    "date": "Mon, 23 Nov 2026 19:57:00 GMT"
   },
   {
-    "title": "La sorprendente vida secreta de \"La ronda de noche\" de Rembrandt",
+    "title": "Detenidos ocho presuntos integrantes de la banda de narcotráfico de la facción 'Chapo Isidro'",
+    "source": "DW.com",
+    "date": "Mon, 23 Nov 2026 09:23:03 GMT"
+  },
+  {
+    "title": "Inquietante hipótesis: un arma nuclear rusa desplegada en el espacio",
     "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 17:49:00 GMT"
-  },
-  {
-    "title": "Un empleado de Anthropic dice haber usado la IA para resolver uno de los más grandes problemas matemáticos",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 11:32:45 GMT"
-  },
-  {
-    "title": "Por qué Jensen Huang es demasiado importante como para que Nvidia pudiera despedirlo",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 18:40:21 GMT"
-  },
-  {
-    "title": "Un buque de guerra ruso es atacado y hundido por drones ucranianos en un puerto de Libia, según Zelensky",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 17:13:55 GMT"
-  },
-  {
-    "title": "La Junta Electoral abre expediente a Silvia Intxaurrondo por posible vulneración de la neutralidad",
-    "source": "El País América",
-    "date": "Mon, 23 Nov 2026 17:16:49 GMT"
-  },
-  {
-    "title": "\"El presidente (De la Espriella) está totalmente equivocado si cree que esta paz es falsa\": Santos y Londoño hablan juntos con BBC Mundo a 10 años del acuerdo que puso fin al conflicto en Colombia",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 10:36:08 GMT"
-  },
-  {
-    "title": "Qué sigue para el futuro político de Cuba: ¿ataque de Trump antes de fin de año o giro demócrata?",
-    "source": "El País América",
-    "date": "Mon, 23 Nov 2026 09:30:00 GMT"
-  },
-  {
-    "title": "El PSOE aventaja en casi 10 puntos al PP, según el último CIS antes del 29-N",
-    "source": "El País América",
-    "date": "Mon, 23 Nov 2026 14:05:03 GMT"
-  },
-  {
-    "title": "“Para que me muera de ganas de daros por el culo”: el poema que cita Puigdemont tras conocer el carpetazo judicial",
-    "source": "El País América",
-    "date": "Mon, 23 Nov 2026 15:57:10 GMT"
-  },
-  {
-    "title": "\"La violencia de hoy no es producto del acuerdo de paz. Es la falta de implementación\": Juan Manuel Santos y Rodrigo Londoño a BBC Mundo",
-    "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 14:09:21 GMT"
-  },
-  {
-    "title": "Semana 11 NFL: De la A a la Z, según el Gurú de las Diagonales",
-    "source": "ESPN Deportes",
-    "date": "Mon, 23 Nov 2026 12:30:00 GMT"
+    "date": "Mon, 23 Nov 2026 20:56:00 GMT"
   },
   {
     "title": "361 militares operaron el ataque al búnker del Chapo Isidro",
@@ -130,14 +35,79 @@
     "date": "Mon, 23 Nov 2026 18:17:10 GMT"
   },
   {
+    "title": "La cantante iraní que recibió 74 latigazos por actuar en YouTube sin el velo",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 21:19:36 GMT"
+  },
+  {
+    "title": "Ramona Maneiro, a los votantes del PP: “¿Estáis conmigo o estáis contra mí después de todo lo que pasé?”",
+    "source": "El País América",
+    "date": "Mon, 23 Nov 2026 14:55:30 GMT"
+  },
+  {
     "title": "¿Quién es quién en la carrera por la Casa Blanca en 2028? Republicanos y demócratas ya perfilan a sus posibles candidatos tras la derrota de Trump",
     "source": "El Tiempo",
     "date": "Mon, 23 Nov 2026 05:28:23 GMT"
   },
   {
-    "title": "El Kremlin advierte contra una escalada en el Báltico tras ataque ucraniano a carguero ruso",
+    "title": "Jensen Huang repite la historia de Steve Jobs, Sam Altman y otros CEO: salieron y volvieron a sus empresas",
+    "source": "Infobae",
+    "date": "Mon, 23 Nov 2026 17:36:00 GMT"
+  },
+  {
+    "title": "Lo que el ataque contra un buque militar ruso en Libia revela sobre la propagación de la guerra de Ucrania",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 23:00:49 GMT"
+  },
+  {
+    "title": "Un carro bomba explota frente a la Gobernación del Meta en Villavicencio",
+    "source": "El País América",
+    "date": "Tue, 24 Nov 2026 04:17:27 GMT"
+  },
+  {
+    "title": "El expresidente Bolsonaro sigue en cuidados intensivos con neumonía y dolores abdominales",
+    "source": "El País América",
+    "date": "Mon, 23 Nov 2026 23:53:37 GMT"
+  },
+  {
+    "title": "\"La violencia de hoy no es producto del acuerdo de paz. Es la falta de implementación\": Juan Manuel Santos y Rodrigo Londoño a BBC Mundo",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 14:09:21 GMT"
+  },
+  {
+    "title": "Lo que el ataque contra un buque militar ruso en Libia revela sobre la propagación de la guerra de Ucrania",
+    "source": "BBC",
+    "date": "Mon, 23 Nov 2026 23:06:12 GMT"
+  },
+  {
+    "title": "Venezuela: concluye sin ningún avance novedoso la cuarta ronda del diálogo entre el Gobierno y la oposición",
     "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 14:29:00 GMT"
+    "date": "Tue, 24 Nov 2026 01:01:00 GMT"
+  },
+  {
+    "title": "ICE detiene a una estudiante de doctorado de Princeton en un aeropuerto de Washington D.C.",
+    "source": "Univision",
+    "date": "Sun, 22 Nov 2026 20:54:18 GMT"
+  },
+  {
+    "title": "Trípoli condena ataques a buques rusos en sus aguas territoriales  y exige explicaciones a Ucrania",
+    "source": "DW Español",
+    "date": "Tue, 24 Nov 2026 03:05:00 GMT"
+  },
+  {
+    "title": "EE.UU. incluye a Megaspeed en lista negra comercial por desvío de chips de Nvidia hacia China",
+    "source": "DW Español",
+    "date": "Tue, 24 Nov 2026 00:17:00 GMT"
+  },
+  {
+    "title": "Dos hombres en mi vida: cómo un accidente de tráfico me enseñó nuevas formas de amar",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 14:45:43 GMT"
+  },
+  {
+    "title": "La entrevista de la BBC a Litvinenko tras el envenenamiento que cambió la relación de Rusia con Occidente hace 20 años",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 04:00:58 GMT"
   },
   {
     "title": "Nvidia recupera a Jensen Huang como consejero delegado",
@@ -145,58 +115,88 @@
     "date": "Mon, 23 Nov 2026 14:16:53 GMT"
   },
   {
-    "title": "&#039;Mi pobre angelito&#039; prepara su regreso con Macaulay Culkin a 36 años de su estreno",
-    "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 14:53:00 GMT"
-  },
-  {
-    "title": "Bukele quiere coronarse rey antipandillas en X",
-    "source": "El País América",
-    "date": "Mon, 23 Nov 2026 04:30:01 GMT"
-  },
-  {
-    "title": "María Corina Machado sustituye los actos masivos por una agenda de consultas en todo el país",
-    "source": "El País América",
-    "date": "Mon, 23 Nov 2026 04:30:00 GMT"
-  },
-  {
-    "title": "México consolida el apoyo en inteligencia de Estados Unidos contra el narco",
-    "source": "El País América",
-    "date": "Mon, 23 Nov 2026 09:30:00 GMT"
-  },
-  {
-    "title": "Las acciones del gigante tecnológico Nvidia se disparan tras anunciarse el regreso de Jensen Huang como director ejecutivo 11 días después de su renuncia",
+    "title": "Un empleado de Anthropic dice haber usado la IA para resolver uno de los más grandes problemas matemáticos",
     "source": "BBC Mundo",
-    "date": "Mon, 23 Nov 2026 16:19:52 GMT"
+    "date": "Mon, 23 Nov 2026 11:32:45 GMT"
   },
   {
-    "title": "El futuro del ajedrez mundial se juega en Asia",
+    "title": "El extraordinario hallazgo de un cementerio de osos de las cavernas que se extinguieron hace 24.000 años",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 16:42:07 GMT"
+  },
+  {
+    "title": "“Para que me muera de ganas de daros por el culo”: el poema que cita Puigdemont tras conocer el carpetazo judicial",
+    "source": "El País América",
+    "date": "Mon, 23 Nov 2026 15:57:10 GMT"
+  },
+  {
+    "title": "¿Qué pasaría si explotara un arma nuclear en el espacio?",
     "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 17:05:00 GMT"
+    "date": "Mon, 23 Nov 2026 21:14:00 GMT"
   },
   {
-    "title": "Rutte: retirada de la OTAN del flanco este es “inaceptable”",
+    "title": "Jensen Huang vuelve a las oficinas de Nvidia entre ovaciones de los empleados",
+    "source": "El País América",
+    "date": "Mon, 23 Nov 2026 19:26:16 GMT"
+  },
+  {
+    "title": "Tras el escándalo con Alice Huang, Estados Unidos incluyó a Megaspeed en la lista negra por el presunto desvío de chips hacia China",
+    "source": "Infobae",
+    "date": "Tue, 24 Nov 2026 00:20:00 GMT"
+  },
+  {
+    "title": "La FIFA concede a EE. UU., México, Costa Rica y Jamaica el Mundial femenino de 2031",
     "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 17:06:00 GMT"
+    "date": "Mon, 23 Nov 2026 18:02:00 GMT"
   },
   {
-    "title": "Padre de Florida mata a su esposa y a sus tres hijos; uno de ellos suplicó por sus vidas en llamada al 911",
-    "source": "El Nuevo Herald",
-    "date": "Sun, 22 Nov 2026 17:55:08 GMT"
+    "title": "Demandan al Gobierno de Trump por medida que amenaza con dejar a miles de familias sin vivienda",
+    "source": "Primera Hora",
+    "date": "Mon, 23 Nov 2026 18:25:10 GMT"
   },
   {
-    "title": "Los demócratas logran histórica mayoría en la Cámara de Representantes",
-    "source": "DW.com",
-    "date": "Mon, 23 Nov 2026 05:59:02 GMT"
+    "title": "El PSOE aventaja en casi 10 puntos al PP, según el último CIS antes del 29-N",
+    "source": "El País América",
+    "date": "Mon, 23 Nov 2026 14:05:03 GMT"
   },
   {
-    "title": "Miles de evacuados de concierto en Mánchester tras detectarse sustancia sospechosa",
+    "title": "Por qué Jensen Huang es demasiado importante como para que Nvidia pudiera despedirlo",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 18:40:21 GMT"
+  },
+  {
+    "title": "La izquierda combate unida a PP y Vox en un debate a ocho que escenifica la división entre bloques",
+    "source": "El País América",
+    "date": "Mon, 23 Nov 2026 23:41:45 GMT"
+  },
+  {
+    "title": "Un buque de guerra ruso es atacado y hundido por drones ucranianos en un puerto de Libia, según Zelensky",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 17:13:55 GMT"
+  },
+  {
+    "title": "La mesa de diálogo en Venezuela se compromete a revisar el estatus de los partidos políticos",
+    "source": "El País América",
+    "date": "Tue, 24 Nov 2026 02:46:28 GMT"
+  },
+  {
+    "title": "Encuesta: la mayoría de los alemanes rechaza enviar armas a Ucrania",
     "source": "DW Español",
-    "date": "Mon, 23 Nov 2026 11:48:00 GMT"
+    "date": "Mon, 23 Nov 2026 23:01:00 GMT"
   },
   {
-    "title": "Padre e hija detenidos en un aeropuerto de Seattle son solicitantes de asilo y no tienen antecedentes penales, afirma abogada",
-    "source": "Univision",
-    "date": "Mon, 23 Nov 2026 00:48:53 GMT"
+    "title": "La UE propone vetar a atletas rusos de eventos en nuevo paquete de sanciones",
+    "source": "DW Español",
+    "date": "Mon, 23 Nov 2026 20:30:00 GMT"
+  },
+  {
+    "title": "La indignación por la detención de un mexicano y su hija por agentes de ICE cuando abordaban un vuelo en el aeropuerto de Seattle",
+    "source": "BBC Mundo",
+    "date": "Mon, 23 Nov 2026 11:25:12 GMT"
+  },
+  {
+    "title": "La Primera Presidencia anuncia la fecha de la rededicación del Templo de Salt L",
+    "source": "noticias.laiglesiadejesucristo.org",
+    "date": "Mon, 23 Nov 2026 17:16:23 GMT"
   }
 ]
